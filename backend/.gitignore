@@ -1,0 +1,30 @@
+# See https://docs.github.com/get-started/getting-started-with-git/ignoring-files for more about ignoring files.
+
+# Compiled output
+migrations/
+
+# Ignore Python bytecode files
+*.pyc
+__pycache__/
+
+# Byte-compiled / optimized / DLL files
+*.pyc
+*.pyo
+*.pyd
+__pycache__/
+
+# Django migration files
+**/migrations/*
+!**/migrations/__init__.py
+
+# Virtual environment folder
+venv/
+env/
+ENV/
+
+# OS files
+.DS_Store
+
+# Ignore logs and databases
+*.log
+*.sqlite3

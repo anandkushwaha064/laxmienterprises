@@ -1,0 +1,34 @@
+<div class="ocr-camera-container">
+  <h2>OCR with Camera</h2>
+
+  <!-- Camera selection dropdown -->
+  <div *ngIf="availableCameras.length > 0">
+    <label for="cameraSelect">Select Camera:</label>
+    <select id="cameraSelect" [(ngModel)]="selectedCameraId">
+      <option *ngFor="let camera of availableCameras" [value]="camera.deviceId">
+        {{ camera.label || 'Camera ' + (availableCameras.indexOf(camera) + 1) }}
+      </option>
+    </select>
+    <button (click)="startCamera()">Start Camera</button>
+  </div>
+
+  <!-- Video feed -->
+  <video #video autoplay></video>
+
+  <!-- Capture button -->
+  <button (click)="captureFrame()" [disabled]="isProcessing">Capture Frame</button>
+
+  <!-- Canvas (hidden) used to process frames -->
+  <canvas #canvas style="display: none;"></canvas>
+
+  <!-- Display the recognized text -->
+  <div *ngIf="recognizedText">
+    <h3>Recognized Text:</h3>
+    <p>{{ recognizedText }}</p>
+  </div>
+
+  <!-- Processing indicator -->
+  <div *ngIf="isProcessing">
+    <p>Processing frame...</p>
+  </div>
+</div>

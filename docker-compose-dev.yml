@@ -1,0 +1,55 @@
+services:
+
+  mysql:
+    image: mysql:8.0
+    container_name: mysql-container
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: password
+      MYSQL_DATABASE: LaxmiEnterprises
+
+    ports:
+      - "13306:3306"
+    expose:
+      - 3306
+    volumes:
+      - ./mysql_data:/var/lib/mysql
+    networks:
+      - internal
+
+  backend:
+    build:
+      context: backend
+      dockerfile: Dockerfile
+    logging:
+      driver: json-file
+    command: bash start.sh
+    volumes:
+      - ./backend:/backend
+    environment:
+      - PYTHONUNBUFFERED=1
+    expose:
+      - "8000"
+    depends_on:
+      - mysql
+    networks:
+     - internal
+    restart: always
+
+  front:
+    build:
+      context: front
+      dockerfile: Dockerfile-Dev
+    ports:
+    - "4200:4200"
+    volumes:
+      - ./front:/front
+    working_dir: /front
+    entrypoint: sleep infinity & ng serve --host 0.0.0.0
+    networks:
+      - internal
+    restart: always
+
+networks:
+  internal:
+    driver: "bridge"

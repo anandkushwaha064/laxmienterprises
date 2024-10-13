@@ -1,0 +1,297 @@
+<div class="invoice-form-container">
+  <form (ngSubmit)="onSubmit(invoiceForm)" #invoiceForm="ngForm">
+    <div class="row g-3">
+      <div class="col-md-12">
+        <h2>Create Invoice</h2>
+      </div>
+      <div class="col-md-10"></div>
+
+      <div class="col-md-1">
+        <button class="btn btn-primary" type="submit">Save</button>
+      </div> 
+      <div class="col-md-1">
+        <button class="btn btn-primary" type="submit">
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-printer" viewBox="0 0 16 16">
+            <path d="M2.5 8a.5.5 0 1 0 0-1 .5.5 0 0 0 0 1"/>
+            <path d="M5 1a2 2 0 0 0-2 2v2H2a2 2 0 0 0-2 2v3a2 2 0 0 0 2 2h1v1a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2v-1h1a2 2 0 0 0 2-2V7a2 2 0 0 0-2-2h-1V3a2 2 0 0 0-2-2zM4 3a1 1 0 0 1 1-1h6a1 1 0 0 1 1 1v2H4zm1 5a2 2 0 0 0-2 2v1H2a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1h12a1 1 0 0 1 1 1v3a1 1 0 0 1-1 1h-1v-1a2 2 0 0 0-2-2zm7 2v3a1 1 0 0 1-1 1H5a1 1 0 0 1-1-1v-3a1 1 0 0 1 1-1h6a1 1 0 0 1 1 1"/>
+          </svg>
+        </button>
+      </div>
+      <div class="col-md-12"></div>
+      <div class="col-md-1">
+      </div>
+      <div class="col-md-6">
+        <div class="row g-3">
+          <div class="col-md-12">
+            <h3>Customer Details</h3>
+          </div>
+
+          <div class="col-md-11">
+            <label for="validationServer01" class="form-label">Name</label>
+            <input type="text" id="validationServer01" name="name" class="form-control is-valid" required
+              [(ngModel)]="customer.name" #name="ngModel" autofocus/>
+            <div class="invalid-feedback" *ngIf="name.invalid && name.touched">
+              Name is required
+            </div>
+          </div>
+
+          <div class="col-md-11">
+            <label for="address" class="form-label">Textarea</label>
+            <textarea id="address" name="address" class="form-control is-invalid" required
+              [(ngModel)]="customer.address" #address="ngModel"></textarea>
+            <div class="invalid-feedback" *ngIf="address.invalid && address.touched">
+              Address is required
+            </div>
+          </div>
+          <div class="col-md-8">
+            <label for="mobileNumber" class="form-label">Mobile Number</label>
+
+            <div class="input-group">
+              <span class="input-group-text" id="mobileNumber">+91</span>
+              <input type="text" id="mobileNumber" name="mobileNumber" class="form-control" required pattern="^[0-9]{10}$"
+              [(ngModel)]="customer.mobileNumber" #mobileNumber="ngModel"
+              [ngClass]="{'is-invalid': mobileNumber.invalid && mobileNumber.touched, 'is-valid': mobileNumber.valid && mobileNumber.touched}" />
+            </div>
+            <div class="error-message" *ngIf="mobileNumber.invalid && mobileNumber.touched">
+              Mobile Number is required (10 digits)
+            </div>
+            <div class="valid-feedback">
+              Looks good!
+            </div>
+          </div>
+
+
+        </div>
+        <div class="customer-details-container ">
+          <!-- Customer Details Section -->
+          <div class="form-group">
+
+          </div>
+        </div>
+      </div>
+
+      <!-- <div class="col-md-2"></div> -->
+
+      <div class="col-md-4">
+        <div class="row g-3">
+          <div class="col-md-12">
+            <h4>Transaction Summary</h4>
+          </div>
+          <div class="col-md-5">
+            <strong>Total Items:</strong>
+          </div>
+          <div class="col-md-5">
+            {{ items.length }}
+          </div>
+          <div class="col-md-5">
+            <strong>Total Amount:</strong>
+          </div>
+          <div class="col-md-5">
+            {{ calculateOverallTotal() | currency }}
+          </div>
+          <div class="col-md-5">
+            <strong>Customer:</strong>
+          </div>
+          <div class="col-md-5">
+            {{ customer.name }}
+          </div>
+          <div class="col-md-5">
+            <strong>Date:</strong>
+          </div>
+          <div class="col-md-5">
+            {{ todayDate }}
+          </div>
+        </div>
+      </div>
+
+      <!-- Invoice Items Section -->
+      <div class="col-md-12 sale-items-section ">
+        <div class="row g-3">
+          <div class="col-md-12">
+            <h4>Items</h4>
+          </div>
+          <div class="col-md-12">
+            <div class="invoice-items-wrapper">
+              <table class="item-table">
+                <thead>
+                  <tr>
+                    <th>Item Name</th>
+                    <th>Description</th>
+                    <th>Category</th>
+                    <th>Price</th>
+                    <th>Quantity</th>
+                    <th>Total</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let item of items; let i = index">
+                    <td>
+                      <select [(ngModel)]="item.itemName" (ngModelChange)="onItemChange(i, $event)"
+                        name="itemName{{ i }}" class="form-control" required>
+                        <option value="">Select Item</option>
+                        <option *ngFor="let availableItem of availableItems" [value]="availableItem.name">
+                          {{ availableItem.name }}
+                        </option>
+                        <option value="custom">Custom Item</option>
+                      </select>
+
+                      <!-- Show input for custom item name -->
+                      <input *ngIf="item.customItem" type="text" name="customItemName{{ i }}" class="form-control"
+                        required placeholder="Enter custom item name" [(ngModel)]="item.itemName" />
+                    </td>
+                    <td>
+                      <input type="text" name="description{{ i }}" class="form-control"
+                        [(ngModel)]="item.description" />
+                    </td>
+                    <td>
+                      <input type="text" name="category{{ i }}" class="form-control" [(ngModel)]="item.category" />
+                    </td>
+                    <td>
+                      <input type="number" name="price{{ i }}" class="form-control" required min="0"
+                        [(ngModel)]="item.price" (ngModelChange)="calculateRowTotal(i)" #price="ngModel" />
+                      <div class="error-message" *ngIf="price.invalid && price.touched">
+                        Required
+                      </div>
+                    </td>
+                    <td>
+                      <input type="number" name="quantity{{ i }}" class="form-control" required min="1"
+                        [(ngModel)]="item.quantity" (ngModelChange)="calculateRowTotal(i)" #quantity="ngModel" />
+                      <div class="error-message" *ngIf="quantity.invalid && quantity.touched">
+                        Required
+                      </div>
+                    </td>
+                    <td>
+                      {{ item.total | currency }}
+                    </td>
+                    <td>
+                      <button type="button" (click)="removeItemRow(i)" *ngIf="items.length > 1" class="btn btn-danger btn-sm ">
+                        Remove
+                      </button>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td colspan="5">
+                    </td>
+                    <td>
+                      <strong>Items Total: {{ calculateOverallTotal() | currency }}</strong>
+                    </td>
+                    <td>
+                      <button type="button" (click)="addItemRow()" class="btn btn-primary btn-sm float-right">
+                        Add
+                      </button>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <div class="col-md-9">
+            <!-- Show overall total at the top -->
+            
+          </div>
+          <div class="col-md-3">
+            <!-- Add Row Button -->
+         
+          </div>
+        </div>
+      </div>
+      <!-- Invoice Items Section -->
+      <div class="col-md-12 sale-items-section ">
+        <div class="row g-3">
+          <div class="col-md-12">
+            <h4>Return Items</h4>
+          </div>
+          <div class="col-md-12">
+            <div class="invoice-items-wrapper">
+              <table class="item-table">
+                <thead>
+                  <tr>
+                    <th>Item Name</th>
+                    <th>Description</th>
+                    <th>Category</th>
+                    <th>Price</th>
+                    <th>Quantity</th>
+                    <th>Total</th>
+                    <th>Actions</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let item of return_items; let i = index">
+                    <td>
+                      <select [(ngModel)]="item.itemName" (ngModelChange)="onItemChange(i, $event)"
+                        name="itemName{{ i }}" class="form-control" required>
+                        <option value="">Select Item</option>
+                        <option *ngFor="let availableItem of availableItems" [value]="availableItem.name">
+                          {{ availableItem.name }}
+                        </option>
+                        <option value="custom">Custom Item</option>
+                      </select>
+
+                      <!-- Show input for custom item name -->
+                      <input *ngIf="item.customItem" type="text" name="customItemName{{ i }}" class="form-control"
+                        required placeholder="Enter custom item name" [(ngModel)]="item.itemName" />
+                    </td>
+                    <td>
+                      <input type="text" name="description{{ i }}" class="form-control"
+                        [(ngModel)]="item.description" />
+                    </td>
+                    <td>
+                      <input type="text" name="category{{ i }}" class="form-control" [(ngModel)]="item.category" />
+                    </td>
+                    <td>
+                      <input type="number" name="price{{ i }}" class="form-control" required min="0"
+                        [(ngModel)]="item.price" (ngModelChange)="calculateRowTotal(i)" #price="ngModel" />
+                      <div class="error-message" *ngIf="price.invalid && price.touched">
+                        Required
+                      </div>
+                    </td>
+                    <td>
+                      <input type="number" name="quantity{{ i }}" class="form-control" required min="1"
+                        [(ngModel)]="item.quantity" (ngModelChange)="calculateRowTotal(i)" #quantity="ngModel" />
+                      <div class="error-message" *ngIf="quantity.invalid && quantity.touched">
+                        Required
+                      </div>
+                    </td>
+                    <td>
+                      {{ item.total | currency }}
+                    </td>
+                    <td>
+                      <button type="button" (click)="removeItemRow(i)" *ngIf="items.length > 1" class="btn btn-danger btn-sm ">
+                        Remove
+                      </button>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td colspan="5">
+                    </td>
+                    <td>
+                      <strong>Items Total: {{ calculateOverallTotal() | currency }}</strong>
+                    </td>
+                    <td>
+                      <button type="button" (click)="addItemRow()" class="btn btn-primary btn-sm float-right">
+                        Add
+                      </button>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <div class="col-md-9">
+            <!-- Show overall total at the top -->
+            
+          </div>
+          <div class="col-md-3">
+            <!-- Add Row Button -->
+         
+          </div>
+        </div>
+      </div>
+        <!-- Submit Button -->
+        <button type="submit" class="submit-btn" [disabled]="invoiceForm.invalid">
+          Save Invoice
+        </button>
+    </div>
+  </form>
+</div>

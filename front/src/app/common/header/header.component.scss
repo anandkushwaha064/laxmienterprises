@@ -1,0 +1,85 @@
+// General header styling
+header {
+  width: 100%;
+  background-color: white;
+  border-bottom: 1px solid #eaeaea;
+}
+
+// Top bar styles
+.top-bar {
+  background-color: #0a0a0a;
+  color: #ffffff;
+  display: flex;
+  justify-content: space-between;
+  padding: 5px 20px;
+
+  a {
+      color: #00ff00;
+      text-decoration: none;
+
+      &:hover {
+          text-decoration: underline;
+      }
+  }
+}
+
+// Navbar styles
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px 20px;
+  
+  .logo {
+      font-size: 28px;
+      font-weight: bold;
+      color: black;
+  }
+
+  .nav-links {
+      list-style: none;
+      display: flex;
+      gap: 20px;
+
+      li {
+          display: inline;
+
+          a {
+              text-decoration: none;
+              color: #000;
+              font-size: 16px;
+              padding: 10px;
+              transition: background-color 0.3s ease; /* Smooth transition for hover effect */
+              border-radius: 5px; /* Optional rounded corners for background */
+              
+              // Hover effect
+              &:hover {
+                  color: #555; /* Change text color */
+                  background-color: lightgrey; /* Add light grey background */
+              }
+          }
+      }
+  }
+
+  // Get Started button styles
+  .get-started-btn {
+      background-color: #4285F4;
+      color: white;
+      padding: 10px 20px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+
+      &:hover {
+          background-color: #357ae8;
+      }
+  }
+}
+
+// Active link styling
+.nav-links a.active-link {
+  color: #3498db; /* Active link color */
+  font-weight: bold;
+  border-bottom: 2px solid #3498db; /* Add border/underline to indicate active */
+}

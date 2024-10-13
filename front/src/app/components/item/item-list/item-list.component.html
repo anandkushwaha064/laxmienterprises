@@ -1,0 +1,38 @@
+<div class="item-list-container">
+  <div class="item-list-header">
+    <h2>Item List</h2>
+    <button class="add-item-btn" (click)="addItem()">Add Item</button>
+  </div>
+
+  <!-- Search Filter -->
+  <input
+    type="text"
+    class="search-box"
+    placeholder="Search items..."
+    [(ngModel)]="searchTerm"
+  />
+
+  <!-- Item List Table -->
+  <table class="item-table">
+    <thead>
+      <tr>
+        <th>Item Name</th>
+        <th>Description</th>
+        <th>Category</th>
+        <th>Price</th>
+        <th>Quantity</th>
+        <th>Quantity Type</th> <!-- Added Quantity Type -->
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let item of filteredItems()">
+        <td>{{ item.itemName }}</td>
+        <td>{{ item.description }}</td>
+        <td>{{ item.category }}</td>
+        <td>{{ item.price | currency }}</td>
+        <td>{{ item.quantity }}</td>
+        <td>{{ item.quantityType }}</td> <!-- Added Quantity Type -->
+      </tr>
+    </tbody>
+  </table>
+</div>

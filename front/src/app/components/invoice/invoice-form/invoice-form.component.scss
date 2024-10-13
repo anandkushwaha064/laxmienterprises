@@ -1,0 +1,163 @@
+.invoice-form-container {
+  width: 96%;
+
+  // max-width: 900px;
+  margin: 50px auto;
+  padding: 20px;
+  border: 1px solid #eaeaea;
+  border-radius: 8px;
+  background-color: white;
+
+  h3 {
+    text-align: left;
+    margin-bottom: 20px;
+    color: #000;
+    width: 60%;
+  }
+
+  h2 {
+    text-align: right;
+    margin-bottom: 20px;
+    color: #000;
+    width: 60%;
+  }
+
+
+  .form-group {
+    margin-bottom: 20px;
+
+    label {
+      display: block;
+      margin-bottom: 8px;
+      font-size: 14px;
+      font-weight: bold;
+      color: #000;
+    }
+
+    .form-control {
+      width: 100%;
+      padding: 10px;
+      font-size: 14px;
+      border: 1px solid #eaeaea;
+      border-radius: 4px;
+      transition: border-color 0.3s ease;
+
+      &:focus {
+        border-color: #3498db;
+      }
+    }
+
+    .error-message {
+      color: red;
+      font-size: 12px;
+      margin-top: 5px;
+    }
+  }
+
+  .customer-details{
+    width: 50%;
+  }
+
+  .sale-items-section {
+    
+  }
+
+  .invoice-items-wrapper {
+    margin-top: 20px;
+    overflow-x: auto;  // Ensures that the table can scroll horizontally if needed
+  }
+
+  .item-table {
+    width: 100%;
+    border-collapse: collapse;
+
+    th, td {
+      padding: 10px;
+      border: 1px solid #ddd;
+      text-align: left;
+    }
+
+    th {
+      background-color: #f4f4f4;
+      font-weight: bold;
+    }
+
+    tbody tr:hover {
+      background-color: #f9f9f9;
+    }
+
+    .form-control {
+      margin-bottom: 0;
+    }
+  }
+
+  .add-item-btn, .remove-btn, .submit-btn {
+    padding: 10px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: background-color 0.3s ease;
+
+    &:hover {
+      background-color: #3498db;
+      color: white;
+    }
+  }
+
+  .add-item-btn {
+    background-color: #4CAF50;
+    margin-top: 10px;
+  }
+
+  .remove-btn {
+    background-color: #e74c3c;
+  }
+
+  .submit-btn {
+    background-color: #4285F4;
+    width: 100%;
+    margin-top: 20px;
+
+    &:disabled {
+      background-color: #eaeaea;
+      color: #666;
+      cursor: not-allowed;
+    }
+  }
+  .form-sections {
+    display: flex;
+    justify-content: space-between; /* Space between customer details and summary */
+    margin-bottom: 30px; /* Add space below form sections */
+  }
+  
+  .customer-details-container {
+    width: 50%; /* Customer Details take 60% of the width */
+  }
+
+  .transaction-summary-container {
+    width: 40%; /* Transaction Summary takes 40% of the width */
+  }
+
+
+  .summary-details p {
+    font-size: 16px;
+    margin: 10px 0;
+  }
+
+  .summary-details strong {
+    font-weight: bold;
+  }
+
+  @media (max-width: 768px) {
+    .form-sections {
+      flex-direction: column; /* Stack customer details and summary vertically on small screens */
+    }
+
+    .customer-details-container,
+    .transaction-summary-container {
+      width: 100%; /* Full width for both sections on small screens */
+    }
+  }
+  
+}
