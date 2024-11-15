@@ -25,7 +25,6 @@
     "@zxing/browser": "^0.1.5",
     "bootstrap": "^5.3.3",
     "express": "^4.18.2",
-    "quagga": "^0.12.1",
     "rxjs": "~7.8.0",
     "tesseract.js": "^5.1.1",
     "tslib": "^2.3.0",

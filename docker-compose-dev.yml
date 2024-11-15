@@ -23,13 +23,16 @@ services:
       dockerfile: Dockerfile
     logging:
       driver: json-file
-    command: bash start.sh
+    # command: bash start.sh
+    command: sleep infinity
     volumes:
       - ./backend:/backend
     environment:
       - PYTHONUNBUFFERED=1
     expose:
       - "8000"
+    ports:
+      - "8000:8000"
     depends_on:
       - mysql
     networks:

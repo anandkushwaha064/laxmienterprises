@@ -1,0 +1,57 @@
+<div class="login-container">
+    <h2>Login</h2>
+  
+    <form #loginForm="ngForm" (ngSubmit)="onSubmit(loginForm)">
+  
+      <!-- Username -->
+      <div class="form-group">
+        <label for="username">Username</label>
+        <input
+          type="text"
+          id="username"
+          name="username"
+          class="form-control"
+          [(ngModel)]="username"
+          #username="ngModel"
+          required
+          minlength="3"
+          maxlength="20"
+        />
+        <div class="invalid-feedback" *ngIf="username.invalid && username.touched">
+          Username is required (min. 3 characters)
+        </div>
+      </div>
+  
+      <!-- Password -->
+      <div class="form-group">
+        <label for="password">Password</label>
+        <input
+          type="password"
+          id="password"
+          name="password"
+          class="form-control"
+          [(ngModel)]="password"
+          #password="ngModel"
+          required
+          minlength="6"
+        />
+        <div class="invalid-feedback" *ngIf="password.invalid && password.touched">
+          Password is required (min. 6 characters)
+        </div>
+      </div>
+  
+      <!-- Error Message -->
+      <div class="error-message" *ngIf="errorMessage">
+        {{ errorMessage }}
+      </div>
+  
+      <!-- Submit Button with Loading Spinner -->
+      <div class="form-group">
+        <button type="submit" class="btn btn-primary w-100" [disabled]="loginForm.invalid || isLoading">
+          <span *ngIf="isLoading" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+          Login
+        </button>
+      </div>
+    </form>
+  </div>
+  

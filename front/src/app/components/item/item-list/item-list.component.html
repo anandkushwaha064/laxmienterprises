@@ -13,25 +13,53 @@
   />
 
   <!-- Item List Table -->
-  <table class="item-table">
+  <table class="tables">
     <thead>
       <tr>
+        <th>ID #</th>
         <th>Item Name</th>
-        <th>Description</th>
-        <th>Category</th>
+        <th>Sale Price</th>
         <th>Price</th>
         <th>Quantity</th>
-        <th>Quantity Type</th> <!-- Added Quantity Type -->
+        <th>Quantity Type</th> <!-- Updated to reflect the correct field name -->
+        <th>Category</th>
+        <th>Return Deduction</th>
+        <th>Last Updated</th>
+        <th>Description</th>
+        <th>Actions</th>
       </tr>
     </thead>
     <tbody>
       <tr *ngFor="let item of filteredItems()">
-        <td>{{ item.itemName }}</td>
-        <td>{{ item.description }}</td>
+        <td>{{ item.id }}</td>
+        <td>{{ item.item_name }}</td>
+        <td>{{ item.item_sale_prize | currency }}</td>
+        <td>{{ item.item_prize | currency }}</td>
+        <td>{{ item.item_quantity }}</td>
+        <td>{{ displayQuantityType(item.quantity_type) }}</td> <!-- Show correct quantity type -->
         <td>{{ item.category }}</td>
-        <td>{{ item.price | currency }}</td>
-        <td>{{ item.quantity }}</td>
-        <td>{{ item.quantityType }}</td> <!-- Added Quantity Type -->
+        <td>{{ item.deduction_on_return }}%</td>
+        <td>{{ item.last_update  | date:'short'  }}</td>
+        <td>{{ item.description }}</td>
+        <td class="action-td" >
+            <button
+              type="button"
+              class="btn btn-primary btn-sm"
+              (click)="editItem(item)"
+            >
+              Edit
+            </button>
+            &nbsp;
+            <button
+              type="button"
+              class="btn btn-danger btn-sm"
+              (click)="deleteItem(item)"
+            >
+              Delete
+            </button>
+    
+        </td>
+
       </tr>
     </tbody>
   </table>

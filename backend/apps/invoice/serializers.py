@@ -1,9 +1,9 @@
 from rest_framework import serializers
-from .models import Sale
+from .models import Invoice
 
-class SaleSerializer(serializers.ModelSerializer):
+class InvoiceSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Sale
+        model = Invoice
         fields = '__all__'  # You can specify the fields you want to include explicitly
 
 

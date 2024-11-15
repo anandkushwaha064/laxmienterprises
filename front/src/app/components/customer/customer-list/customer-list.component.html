@@ -1,0 +1,61 @@
+<div class="item-list-container">
+  <div class="item-list-header">
+    <h2>Customer List</h2>
+    <button class="add-item-btn" (click)="addItem()">Add Customer</button>
+  </div>
+
+  <!-- Search Filter -->
+  <input
+    type="text"
+    class="search-box"
+    placeholder="Search customers..."
+    [(ngModel)]="searchTerm"
+  />
+
+  <!-- Customer List Table -->
+  <table class="tables">
+    <thead>
+      <tr>
+        <th>ID</th>
+        <th>Name</th>
+        <th>Address</th>
+        <th>Mobile Number</th>
+        <th>Balance</th>
+        <th>Last Updated By</th>
+        <th>Creation Date</th>
+        <th>Actions</th> <!-- Add an Actions column -->
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let customer of filteredCustomers()">
+        <td>{{ customer.id }}</td>
+        <td>{{ customer.customer_name }}</td>
+        <!-- <td {[ngStyle]="{'max-width': 25%}"}>{{ customer.customer_address }}</td> -->
+        <td [ngStyle]="{'width': '25%'}">{{ customer.customer_address }}</td>
+        <td>{{ customer.mobile_number }}</td>
+        <td>{{ customer.balance | currency }}</td>
+        <td>{{ customer.last_updated_by }}</td>
+        <td>{{ customer.creation_datetime | date:'short' }}</td> <!-- Format the date -->
+
+        <!-- Action buttons: Edit and Delete -->
+        <td class="action-td ">
+          <button
+            type="button"
+            class="btn btn-primary btn-sm"
+            (click)="editItem(customer)"
+          >
+            Edit
+          </button>
+          &nbsp;
+          <button
+            type="button"
+            class="btn btn-danger btn-sm"
+            (click)="deleteItem(customer)"
+          >
+            Delete
+          </button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>

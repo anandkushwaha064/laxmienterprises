@@ -21,7 +21,14 @@
     "lib": [
       "ES2022",
       "dom"
-    ]
+    ],
+    "baseUrl": "src",
+    "paths": {
+      "@services/*": ["app/services/*"],
+      "@components/*": ["app/components/*"],
+      "@environments/*": ["app/environments/*"],
+      "@interfaces/*": ["app/interfaces/*"],
+    }
   },
   "angularCompilerOptions": {
     "enableI18nLegacyMessageIdFormat": false,
@@ -32,6 +39,8 @@
   "include": [
     "src/**/*",
     "src/types/**/*.d.ts"
-  ]
-
+  ],
+  "files": [
+    "src/app/interfaces/auth.Interfaces.ts"  // Add this line
+  ],
 }

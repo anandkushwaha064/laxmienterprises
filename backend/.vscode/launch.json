@@ -7,9 +7,14 @@
         {
             "name": "Python Debugger: Current File",
             "type": "debugpy",
+            "python": "/usr/local/bin/python3.11",
             "request": "launch",
-            "program": "${file}",
-            "console": "integratedTerminal"
+            "program": "/backend/manage.py",
+            "console": "integratedTerminal",
+            "args": [
+                "runserver",
+                "0.0.0.0:8000"
+            ]
         }
     ]
 }

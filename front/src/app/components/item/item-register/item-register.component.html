@@ -1,106 +1,118 @@
+<!-- item-register.component.html -->
+
 <div class="item-register-container">
-    <h2>Register New Item</h2>
+
+    <div class="container-header">
+        <h2>{{ isEditMode ? 'Update' : 'Add New' }} Item</h2>
+    </div>
+
     <form (ngSubmit)="onSubmit(itemForm)" #itemForm="ngForm">
 
-
-        <!-- Bootstrap Row for Form Layout -->
         <div class="row g-3">
-
-            <!-- Barcode Scanner Button -->
-            <div class="col-md-12">
-                <label for="barcode" class="form-label">Barcode</label>
-                <div class="input-group">
-                    <input type="text" id="barcode" name="barcode" class="form-control" [(ngModel)]="item.barcode"
-                        placeholder="Scan or enter barcode" #barcode="ngModel" />
-                    <button type="button" class="btn btn-secondary" (click)="startBarcodeScanner()">
-                        Scan Barcode
-                    </button>
-                </div>
-            </div>
-            <div class="col-md-12">
-                <label for="camera-select" class="form-label">Select Camera</label>
-                <select id="camera-select" class="form-control" [(ngModel)]="selectedCameraId" name="camera-select">
-                  <option *ngFor="let camera of availableCameras" [value]="camera.deviceId">{{ camera.label }}</option>
-                </select>
-              </div>
-
-            <!-- Scanner Video Feed -->
-            <div class="col-md-12 mt-3" *ngIf="scanning">
-                <video #scanner id="barcode-scanner-video" autoplay></video>
-            </div>
 
             <!-- Item Name -->
             <div class="col-md-12">
-                <label for="itemName" class="form-label">Item Name</label>
-                <input type="text" id="itemName" name="itemName" class="form-control" required minlength="3"
-                    [(ngModel)]="item.itemName" #itemName="ngModel"
-                    [ngClass]="{'is-invalid': itemName.invalid && itemName.touched, 'is-valid': itemName.valid && itemName.touched}" />
-                <div class="invalid-feedback" *ngIf="itemName.invalid && itemName.touched">
-                    Item Name is required (min. 3 characters)
+                <label for="item_name" class="form-label">Item Name</label>
+                <input type="text" id="item_name" name="item_name" class="form-control" required minlength="3"
+                    [(ngModel)]="item.item_name" #item_name="ngModel" (blur)="checkItemName(item_name)"
+                    [ngClass]="{'is-invalid': item_name.invalid && item_name.touched, 'is-valid': item_name.valid && item_name.touched}" />
+                <div class="invalid-feedback" *ngIf="item_name.invalid && item_name.touched && !itemNameBelongsTo">
+                    Item Name is required (min. 3 characters).
+                </div>
+                <div *ngIf="itemNameBelongsTo">
+                    This item name belongs to the item <a routerLink="/item-edit/{{itemNameBelongsTo.id}}"
+                        routerLinkActive="active-link">ID: {{itemNameBelongsTo.id}}, {{itemNameBelongsTo.item_name}}</a>
                 </div>
                 <div class="valid-feedback">Looks good!</div>
             </div>
 
-            <!-- Price -->
+            <!-- Item Quantity -->
             <div class="col-md-6">
-                <label for="price" class="form-label">Price</label>
-                <input type="number" id="price" name="price" class="form-control" required min="0"
-                    [(ngModel)]="item.price" #price="ngModel"
-                    [ngClass]="{'is-invalid': price.invalid && price.touched, 'is-valid': price.valid && price.touched}" />
-                <div class="invalid-feedback" *ngIf="price.invalid && price.touched">
-                    Price is required and must be a positive number
-                </div>
-                <div class="valid-feedback">Looks good!</div>
-            </div>
-
-            <!-- Quantity and Quantity Type -->
-            <div class="col-md-6">
-                <label for="quantity" class="form-label">Quantity</label>
-                <input type="number" id="quantity" name="quantity" class="form-control" required min="1"
-                    [(ngModel)]="item.quantity" #quantity="ngModel"
-                    [ngClass]="{'is-invalid': quantity.invalid && quantity.touched, 'is-valid': quantity.valid && quantity.touched}" />
-                <div class="invalid-feedback" *ngIf="quantity.invalid && quantity.touched">
-                    Quantity is required and must be greater than 0
+                <label for="item_quantity" class="form-label">Quantity</label>
+                <input type="number" id="item_quantity" name="item_quantity" class="form-control" required min="0"
+                    [(ngModel)]="item.item_quantity" #item_quantity="ngModel"
+                    [ngClass]="{'is-invalid': item_quantity.invalid && item_quantity.touched, 'is-valid': item_quantity.valid && item_quantity.touched}" />
+                <div class="invalid-feedback" *ngIf="item_quantity.invalid && item_quantity.touched">
+                    Quantity is required and must be greater or equal to 0.
                 </div>
                 <div class="valid-feedback">Looks good!</div>
             </div>
 
             <!-- Quantity Type -->
             <div class="col-md-6">
-                <label for="quantityType" class="form-label">Quantity Type</label>
-                <select id="quantityType" name="quantityType" class="form-control" required
-                    [(ngModel)]="item.quantityType" #quantityType="ngModel"
-                    [ngClass]="{'is-invalid': quantityType.invalid && quantityType.touched, 'is-valid': quantityType.valid && quantityType.touched}">
-                    <option value="" disabled>Select Quantity Type</option>
-                    <option value="pieces">Pieces</option>
-                    <option value="kg">Kilogram</option>
-                    <option value="gram">Gram</option>
-                    <option value="liters">Liters</option>
+                <label for="quantity_type" class="form-label">Quantity Type</label>
+                <select id="quantity_type" name="quantity_type" class="form-control" required
+                    [(ngModel)]="item.quantity_type" #quantity_type="ngModel"
+                    [ngClass]="{'is-invalid': quantity_type.invalid && quantity_type.touched, 'is-valid': quantity_type.valid && quantity_type.touched}">
+                    <option *ngFor="let quantityType of quantityTypes" [ngValue]="quantityType[0]">
+                        {{ quantityType[1] }}
+                    </option>
                 </select>
-                <div class="invalid-feedback" *ngIf="quantityType.invalid && quantityType.touched">
-                    Quantity Type is required
+
+                <div class="invalid-feedback" *ngIf="quantity_type.invalid && quantity_type.touched">
+                    Quantity Type is required.
                 </div>
                 <div class="valid-feedback">Looks good!</div>
             </div>
 
-            <!-- Category -->
+            <!-- Item Price -->
+            <div class="col-md-6">
+                <label for="item_prize" class="form-label">Item Price</label>
+                <input type="number" id="item_prize" name="item_prize" class="form-control" required min="0"
+                    [(ngModel)]="item.item_prize" #item_prize="ngModel"
+                    [ngClass]="{'is-invalid': item_prize.invalid && item_prize.touched, 'is-valid': item_prize.valid && item_prize.touched}" />
+                <div class="invalid-feedback" *ngIf="item_prize.invalid && item_prize.touched">
+                    Item price is required and must be a positive number.
+                </div>
+                <div class="valid-feedback">Looks good!</div>
+            </div>
+
+            <!-- Item Sale Price -->
+            <div class="col-md-6">
+                <label for="item_sale_prize" class="form-label">Item Sale Price</label>
+                <input type="number" id="item_sale_prize" name="item_sale_prize" class="form-control" required min="0"
+                    [(ngModel)]="item.item_sale_prize" #item_sale_prize="ngModel"
+                    [ngClass]="{'is-invalid': item_sale_prize.invalid && item_sale_prize.touched, 'is-valid': item_sale_prize.valid && item_sale_prize.touched}" />
+                <div class="invalid-feedback" *ngIf="item_sale_prize.invalid && item_sale_prize.touched">
+                    Sale price is required and must be a positive number.
+                </div>
+                <div class="valid-feedback">Looks good!</div>
+            </div>
+            <!-- Item Sale Price -->
+            <div class="col-md-6">
+                <label for="deduction_on_return" class="form-label">Return Deduction</label>
+                <div class="input-group">
+                    <!-- <input type="text" class="form-control" aria-label="Amount (to the nearest dollar)"> -->
+                    <input type="number" id="deduction_on_return" name="deduction_on_return" class="form-control"
+                        required min="0" [(ngModel)]="item.deduction_on_return" #deduction_on_return="ngModel"
+                        [ngClass]="{'is-invalid': deduction_on_return.invalid && deduction_on_return.touched, 'is-valid': deduction_on_return.valid && deduction_on_return.touched}" />
+
+                    <div class="input-group-append">
+                        <span class="input-group-text">%</span>
+                    </div>
+                </div>
+
+                <div class="invalid-feedback" *ngIf="deduction_on_return.invalid && deduction_on_return.touched">
+                    Sale price is required and must be a positive number.
+                </div>
+                <div class="valid-feedback">Looks good!</div>
+            </div>
+
+            <!-- Quantity Type -->
             <div class="col-md-6">
                 <label for="category" class="form-label">Category</label>
                 <select id="category" name="category" class="form-control" required [(ngModel)]="item.category"
                     #category="ngModel"
                     [ngClass]="{'is-invalid': category.invalid && category.touched, 'is-valid': category.valid && category.touched}">
-                    <option value="" disabled>Select Category</option>
                     <option value="electronics">Electronics</option>
-                    <option value="furniture">Furniture</option>
-                    <option value="clothing">Clothing</option>
                 </select>
                 <div class="invalid-feedback" *ngIf="category.invalid && category.touched">
-                    Category is required
+                    Quantity Type is required.
                 </div>
                 <div class="valid-feedback">Looks good!</div>
             </div>
 
-            <!-- Description -->
+            <!-- Description (optional) -->
             <div class="col-md-12">
                 <label for="description" class="form-label">Description</label>
                 <textarea id="description" name="description" class="form-control" [(ngModel)]="item.description"
@@ -112,9 +124,10 @@
             <!-- Submit Button -->
             <div class="col-md-10"></div>
             <div class="col-md-2">
-                <button type="submit" class="btn btn-primary w-100" [disabled]="itemForm.invalid">Register Item</button>
+                <button type="submit" class="btn btn-success w-100" [disabled]="itemForm.invalid"> {{ isEditMode ?
+                    'Update' : 'Add' }} Item</button>
             </div>
 
-        </div> <!-- End of Bootstrap Row -->
+        </div>
     </form>
 </div>

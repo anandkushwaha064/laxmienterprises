@@ -1,63 +1,60 @@
 <div class="customer-register-container">
-  <h2>Register New Customer</h2>
+  <div class="container-header">
+    <h2>{{ isEditMode ? 'Update Customer' : 'Register New Customer' }}</h2>
+  </div>
+
   <form (ngSubmit)="onSubmit(customerForm)" #customerForm="ngForm">
 
     <!-- Bootstrap Row for Form Layout -->
     <div class="row g-3">
 
-      <!-- Name -->
+      <!-- Customer Name -->
       <div class="col-md-7">
-        <label for="name" class="form-label">Name</label>
-        <input type="text" id="name" name="name" class="form-control" required minlength="3" [(ngModel)]="customer.name"
-          #name="ngModel"
-          [ngClass]="{'is-invalid': name.invalid && name.touched, 'is-valid': name.valid && name.touched}" />
-        <div class="invalid-feedback" *ngIf="name.invalid && name.touched">
-          Name is required (min. 3 characters)
+        <label for="customer_name" class="form-label">Customer Name</label>
+        <input type="text" id="customer_name" name="customer_name" class="form-control" required minlength="3" [(ngModel)]="customer.customer_name"
+          #customer_name="ngModel"
+          [ngClass]="{'is-invalid': customer_name.invalid && customer_name.touched, 'is-valid': customer_name.valid && customer_name.touched}" />
+        <div class="invalid-feedback" *ngIf="customer_name.invalid && customer_name.touched">
+          Customer name is required (min. 3 characters)
         </div>
         <div class="valid-feedback">Looks good!</div>
       </div>
 
       <!-- Mobile Number -->
       <div class="col-md-5">
-        <label for="mobileNumber" class="form-label">Mobile Number</label>
+        <label for="mobile_number" class="form-label">Mobile Number</label>
 
         <div class="input-group">
           <span class="input-group-text" id="mobileNumber">+91</span>
-          <input type="text" id="mobileNumber" name="mobileNumber" class="form-control" required pattern="^[0-9]{10}$"
-          [(ngModel)]="customer.mobileNumber" #mobileNumber="ngModel"
-          [ngClass]="{'is-invalid': mobileNumber.invalid && mobileNumber.touched, 'is-valid': mobileNumber.valid && mobileNumber.touched}" />
+          <input type="text" id="mobile_number" name="mobile_number" class="form-control" required pattern="^[0-9]{10}$"
+          [(ngModel)]="customer.mobile_number" #mobile_number="ngModel"  (ngModelChange)="checkMobileNumber(mobile_number)"  minlength="10" maxlength="10"
+          [ngClass]="{'is-invalid':  mobile_number.invalid && mobile_number.touched, 'is-valid': mobile_number.valid && mobile_number.touched}" />
         </div>
-        
-        <div class="invalid-feedback" *ngIf="mobileNumber.invalid && mobileNumber.touched">
+        <div class="invalid-feedback" *ngIf="mobile_number.invalid && mobile_number.touched">
           Mobile number is required (10 digits)
+        </div>
+        <div *ngIf="mobileNumberBelongsTo">
+          This mobile number belongs to the customer <a routerLink="/edit-customer/{{mobileNumberBelongsTo.id}}" routerLinkActive="active-link">{{mobileNumberBelongsTo.customer_name}}</a>
         </div>
         <div class="valid-feedback">Looks good!</div>
       </div>
 
-
-
-
-
-
       <!-- Address -->
       <div class="col-md-12">
-        <label for="address" class="form-label">Address</label>
-        <textarea id="address" name="address" class="form-control" required [(ngModel)]="customer.address"
-          #address="ngModel"
-          [ngClass]="{'is-invalid': address.invalid && address.touched, 'is-valid': address.valid && address.touched}"></textarea>
-        <div class="invalid-feedback" *ngIf="address.invalid && address.touched">
+        <label for="customer_address" class="form-label">Customer Address</label>
+        <textarea id="customer_address" name="customer_address" class="form-control" required [(ngModel)]="customer.customer_address"
+          #customer_address="ngModel"
+          [ngClass]="{'is-invalid': customer_address.invalid && customer_address.touched, 'is-valid': customer_address.valid && customer_address.touched}"></textarea>
+        <div class="invalid-feedback" *ngIf="customer_address.invalid && customer_address.touched">
           Address is required
         </div>
         <div class="valid-feedback">Looks good!</div>
       </div>
 
-
-
-      <!-- Credit Balance -->
+      <!-- Balance -->
       <div class="col-md-6">
-        <label for="creditBalance" class="form-label">Credit Balance</label>
-        <input type="number" id="creditBalance" name="creditBalance" class="form-control"
-          [(ngModel)]="customer.creditBalance" />
+        <label for="balance" class="form-label">Balance</label>
+        <input type="number" id="balance" name="balance" class="form-control" [(ngModel)]="customer.balance" />
       </div>
 
       <!-- Last Bought -->
@@ -69,7 +66,9 @@
       <!-- Submit Button -->
       <div class="col-md-10"></div>
       <div class="col-md-2">
-        <button type="submit" class="btn btn-primary w-100" [disabled]="customerForm.invalid">Save</button>
+        <button type="submit" class="btn btn-primary w-100 btn-sm" [disabled]="customerForm.invalid">
+          {{ isEditMode ? 'Update' : 'Save' }}
+        </button>
       </div>
 
     </div> <!-- End of Bootstrap Row -->

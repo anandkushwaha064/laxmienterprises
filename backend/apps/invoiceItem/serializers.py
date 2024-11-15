@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import SaleItem
+from .models import InvoiceItem
 
 # class SaleItemsSerializer(serializers.ModelSerializer):
 #     class Meta:
@@ -8,7 +8,7 @@ from .models import SaleItem
 #
 
 
-class SaleItemSerializer(serializers.ModelSerializer):
+class InvoiceItemSerializer(serializers.ModelSerializer):
     class Meta:
-        model = SaleItem
+        model = InvoiceItem
         fields = ['item', 'item_sale_price', 'item_quantity', 'quantity_type', 'discount', 'sale']

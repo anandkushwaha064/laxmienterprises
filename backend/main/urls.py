@@ -19,11 +19,9 @@ from django.urls import path,include
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('',include('apps.users.urls')),
-    path('',include('apps.sale.urls')),
-    path('',include('apps.item.urls')),
-    path('',include('apps.customer.urls')),
-    path('',include('apps.saleItem.urls')),
-
-
+    path('api/invoice/',include('apps.invoice.urls')),
+    path('api/item/',include('apps.item.urls')),
+    path('api/customer/',include('apps.customer.urls')),
+    path('api/invoice-item/',include('apps.invoiceItem.urls')),
+    path('api/',include('apps.authorization.urls')),
 ]
