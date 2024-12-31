@@ -1,0 +1,26 @@
+version: '3.8'
+
+services:
+  apache:
+    image: httpd:2.4.48
+    volumes:
+      - ./entrypoint.sh:/usr/local/bin/entrypoint.sh
+      - ./oidc.conf:/usr/local/apache2/conf/extra/oidc.conf
+      - ./modules/mod_auth_openidc.so:/usr/local/apache2/modules/mod_auth_openidc.so
+      - ./htdocs:/usr/local/apache2/htdocs
+    command: bash /usr/local/bin/entrypoint.sh
+    ports:
+      - "80:80"
+      - "443:443"
+    environment:
+      - OIDC_PROVIDER_URL=https://accounts.google.com/.well-known/openid-configuration
+      - OIDC_CLIENT_ID=your_client_id
+      - OIDC_CLIENT_SECRET=your_google_secret
+      - OIDC_CRYPTO_PASSPHRASE=key_any_random_parsephrase
+
+    networks:
+      - webnet
+
+networks:
+  webnet:
+  

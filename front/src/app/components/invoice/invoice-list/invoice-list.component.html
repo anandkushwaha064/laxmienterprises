@@ -1,0 +1,73 @@
+<div class="invoice-list-container">
+  <div class="invoice-list-header">
+    <h4>Invoice List</h4>
+    <button class="btn btn-sm btn-primary" (click)="addInvoice()">Create Invoice</button>
+  </div>
+
+  <!-- Search Filter -->
+  <input
+    type="text"
+    class="search-box"
+    placeholder="Search invoices..."
+    [(ngModel)]="searchTerm"
+  />
+
+  <!-- Invoice List Table -->
+  <table class="tables">
+    <thead>
+      <tr>
+        <th>ID #</th>
+        <th>Customer Name</th>
+        <th>Date</th>
+        <!-- <th>Items Total</th>
+        <th>Scrap Total</th>
+        <th>Discount</th> -->
+        <th>Invoice Total</th>
+        <th>Paid</th>
+        <!-- <th>Returned</th> -->
+        <th>Balance</th>
+        <th>Created By</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let invoice of filteredInvoices()">
+        <td class="link" (click)="showInvoice(invoice)">{{ invoice.id }}</td>
+        <td>{{ invoice.customerName }}</td>
+        <td>{{ invoice.sale_date_time | date:'short'  }}</td>
+        <!-- <td>{{ invoice.invoiceItemsTotal | currency }}</td>
+        <td>{{ invoice.returnItemsTotal | currency }}</td> -->
+        <!-- <td>{{ invoice.discount | currency }}</td> -->
+        <td>{{ invoice.invoiceTotal | currency }}</td>
+        <td>{{ invoice.customerPaid | currency }}</td> <!-- Show correct quantity type -->
+        <!-- <td>{{ invoice.customerReturn | currency }}</td> -->
+        <td>{{ invoice.currentTransactionBalance | currency }}</td>        <!-- Show correct quantity type -->
+        <td>{{ invoice.last_updated_by }}</td>
+        
+        <td class="action-td"  style="width: 18%;">
+          <a class="btn btn-sm btn-secondary" href="/api/invoice/getPDF/'{{invoice.id}}" _blank>
+            <span class="material-icons" style="cursor: pointer;">print</span>
+          </a>
+          &nbsp;
+            <button
+              type="button"
+              class="btn btn-primary btn-sm"
+              (click)="editInvoice(invoice)"
+            > <span class="material-icons" style="cursor: pointer;">edit</span>
+              
+            </button>
+            &nbsp;
+            <button
+              type="button"
+              class="btn btn-danger btn-sm"
+              (click)="deleteInvoice(invoice)"
+            >
+            <span class="material-icons" style="cursor: pointer;">delete</span>
+            </button>
+    
+        </td>
+
+      </tr>
+    </tbody>
+  </table>
+</div>

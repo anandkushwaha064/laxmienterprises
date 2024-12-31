@@ -1,0 +1,65 @@
+[
+  {
+    "model": "settings.Settings",
+    "pk": 1,
+    "fields": {
+      "name": "ShopName",
+      "value": "Laxmi Enterprises",
+      "last_updated_by": "anand"
+    }
+  },
+  {
+    "model": "settings.Settings",
+    "pk": 2,
+    "fields": {
+      "name": "ShopMobileNumber",
+      "value": "",
+      "last_updated_by": "anand"
+    }
+  },
+  {
+    "model": "settings.Settings",
+    "pk": 3,
+    "fields": {
+      "name": "ShopAddress",
+      "value": "Badi Pull Road Rewa",
+      "last_updated_by": "anand"
+    }
+  },
+  {
+    "model": "settings.Settings",
+    "pk":4, 
+    "fields": {
+      "name": "ShowNameInSlip",
+      "value": "Yes",
+      "last_updated_by": "anand"
+    }
+  },
+  {
+    "model": "settings.Settings",
+    "pk":5, 
+    "fields": {
+      "name": "DevelopedBy",
+      "value": "Anand Kushwaha",
+      "last_updated_by": "anand"
+    }
+  },
+  {
+    "model": "settings.Settings",
+    "pk":6, 
+    "fields": {
+      "name": "DeveloperEmail",
+      "value": "anandkushwaha066@gmail.com",
+      "last_updated_by": "anand"
+    }
+  },
+  {
+    "model": "settings.Settings",
+    "pk":7, 
+    "fields": {
+      "name": "DeveloperMobileNumber",
+      "value": "+91 - 8717920862",
+      "last_updated_by": "anand"
+    }
+  }
+]

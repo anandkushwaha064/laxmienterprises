@@ -5,7 +5,7 @@ from django.contrib.auth.models import User
 
 class LastUpdatedByMiddleware(MiddlewareMixin):
     def process_request(self, request):
-        print("asdf")
+        print("processing request")
         # Apply middleware only for POST, PUT, and PATCH requests
         if request.method in ['POST', 'PUT', 'PATCH']:
             # Ensure the user is authenticated
@@ -30,6 +30,7 @@ class LastUpdatedByMiddleware(MiddlewareMixin):
                         request._body = json.dumps(body).encode('utf-8')
                     else:
                         request.POST = body
+
 
                 except json.JSONDecodeError:
                     return JsonResponse({'error': 'Invalid JSON format'}, status=400)

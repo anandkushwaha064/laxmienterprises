@@ -23,5 +23,7 @@ urlpatterns = [
     path('api/item/',include('apps.item.urls')),
     path('api/customer/',include('apps.customer.urls')),
     path('api/invoice-item/',include('apps.invoiceItem.urls')),
+    path('api/settings/',include('apps.settings.urls')),
     path('api/',include('apps.authorization.urls')),
+    
 ]

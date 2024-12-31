@@ -11,6 +11,7 @@ https://docs.djangoproject.com/en/5.1/ref/settings/
 """
 
 from pathlib import Path
+import os
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -22,7 +23,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-f21%4728!xa5x1)#)wn&*=$lg1fom%48^r^1f49f4j^7fat2zz'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = os.getenv("DEBUG")=="True"
 
 ALLOWED_HOSTS = ['*']
 
@@ -42,11 +43,20 @@ INSTALLED_APPS = [
     'rest_framework_simplejwt',
     'apps.item',
     'apps.customer',
-    'apps.users',
+    'apps.settings',
     'apps.invoiceItem',
     'apps.invoice',
     'apps.authorization'
 ]
+
+MIGRATION_MODULES = {
+    'item': 'migrations.item',
+    'customer': 'migrations.customer',
+    'settings': 'migrations.settings',
+    'invoiceItem': 'migrations.invoiceItem',
+    'invoice': 'migrations.invoice',
+    'authorization': 'migrations.authorization',    
+}
 
 # Add this configuration for Django REST framework
 REST_FRAMEWORK = {
@@ -71,7 +81,8 @@ MIDDLEWARE = [
     'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
-    "main.middileware.LastUpdatedByMiddleware"
+    "main.middileware.LastUpdatedByMiddleware",
+
 ]
 
 ROOT_URLCONF = 'main.urls'
@@ -79,7 +90,7 @@ ROOT_URLCONF = 'main.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': ['./templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -104,7 +115,7 @@ DATABASES = {
         'NAME': 'LaxmiEnterprises',
         'USER': 'root',
         'PASSWORD': 'password',
-        'HOST': 'mysql',
+        'HOST': os.getenv("MYSQLHOST"),
         'PORT': '3306',
     }
 }
@@ -134,7 +145,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Asia/Kolkata'
 
 USE_I18N = True
 

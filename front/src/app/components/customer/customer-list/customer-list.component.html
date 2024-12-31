@@ -1,7 +1,7 @@
 <div class="item-list-container">
   <div class="item-list-header">
-    <h2>Customer List</h2>
-    <button class="add-item-btn" (click)="addItem()">Add Customer</button>
+    <h4>Customer List</h4>
+    <button class="btn btn-sm btn-primary" (click)="addItem()">Add Customer</button>
   </div>
 
   <!-- Search Filter -->
@@ -44,7 +44,7 @@
             class="btn btn-primary btn-sm"
             (click)="editItem(customer)"
           >
-            Edit
+          <span class="material-icons"  style="cursor: pointer;">edit</span>
           </button>
           &nbsp;
           <button
@@ -52,7 +52,7 @@
             class="btn btn-danger btn-sm"
             (click)="deleteItem(customer)"
           >
-            Delete
+          <span class="material-icons" style="cursor: pointer;">delete</span>
           </button>
         </td>
       </tr>

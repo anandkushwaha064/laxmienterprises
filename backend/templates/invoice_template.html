@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Invoice</title>
+    <style>
+        @page {
+            size: A5;
+            /* Set page size to A5 */
+            margin: 2mm 2mm;
+            /* Set margin for the page */
+        }
+
+        * {
+            /* border: 1px solid red; */
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            font-size: 10px;
+            /* Adjust font size */
+            margin: 0;
+            padding: 0;
+            width: 100%;
+        }
+
+        .header {
+            text-align: center;
+            font-size: 15px;
+            /* Slightly smaller for A5 */
+            font-weight: bold;
+            margin-bottom: 10px;
+            float: left;
+            width: 100%;
+        }
+
+
+        .content {
+            padding: 5mm;
+            /* Add padding around content */
+        }
+
+        .shop-details{
+            font-size: 12px;
+            text-align: center;
+            margin-bottom: 10px;
+        }
+        .table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 10px;
+        }
+
+        .table,
+        .table th,
+        .table td {
+            border: 1px solid black;
+        }
+
+        .table th,
+        .table td {
+            padding: 5px;
+            /* Reduce padding for compact layout */
+            text-align: left;
+        }
+
+        .totals {
+            text-align: right;
+            margin-top: 10px;
+        }
+
+        .totals p {
+            line-height: 1.5;
+        }
+
+        h3 {
+            margin: 5px 0;
+            /* Reduce spacing for A5 layout */
+        }
+
+        p {
+            margin: 3px 0;
+            /* Compact spacing for A5 */
+        }
+    </style>
+</head>
+
+<body>
+    <div class="content">
+        <div style="width: 100%; float: left; margin-bottom: 10px;">
+            <p style="width: 40%; float: left;"><strong>Invoice ID:</strong> {{ invoice.id }}</p>
+            <p style="width: 40%; float: right"><strong>Invoice Date:</strong> {{ invoice.sale_date_time }}</p>
+        </div>
+        <div class="header">Invoice Slip</div>
+       
+        <div class="shop-details">
+            {% if ShowNameInSlip == "Yes" %}
+                <p><strong>{{ ShopName }}</strong></p>
+                {% if ShopMobileNumber %}
+                <p><strong>Mob: </strong> {{ ShopMobileNumber }}</p>
+                {% endif %}  
+                {% if ShopAddress %}
+                <p><strong>Address: </strong> {{ ShopAddress }}</p>
+                {% endif %}
+            {% endif %}
+        </div>
+        
+        <p><strong>Customer Name:</strong> {{ customer.customer_name }}</p>
+        <p><strong>Customer Address:</strong> {{ customer.customer_address }}</p>
+        <p><strong>Customer Mobile:</strong> {{ customer.mobile_number }}</p>
+
+
+        <br>
+        <h3>Invoice Items</h3>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th style="width: 5%;">#</th>
+                    <th style="width: 40%;">Description</th>
+                    <th style="width: 20%;">Quantity</th>
+                    <th style="width: 15%;">Rate</th>
+                    <th style="width: 20%;">Amount</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in invoiceItems %}
+                <tr>
+                    <td>{{ forloop.counter }}</td>
+                    <td>{{ item.item_name }}</td>
+                    <td>{{ item.item_quantity }} {{ item.item_quantity_type }}</td>
+                    <td>{{ item.item_sale_price }}</td>
+                    <td>{{ item.total }}</td>
+                </tr>
+                {% endfor %}
+                <tr>
+                    <td colspan="3"></td>
+                    <td><b>Total :</b></td>
+                    <td><b>{{ invoice.invoiceItemsTotal }}</b></td>
+                </tr>
+            </tbody>
+        </table>
+        {% if returnItems %}
+        <h3>Return Items</h3>
+        <table class="table">
+            <thead>
+                <tr>
+                    <th style="width: 5%;">#</th>
+                    <th style="width: 40%;">Description</th>
+                    <th style="width: 20%;">Quantity</th>
+                    <th style="width: 15%;">Rate</th>
+                    <th style="width: 20%;">Amount</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for item in returnItems %}
+                <tr>
+                    <td>{{ forloop.counter }}</td>
+                    <td>{{ item.item_name }}</td>
+                    <td>{{ item.item_quantity }} {{ item.item_quantity_type }}</td>
+                    <td>{{ item.item_sale_price }}</td>
+                    <td>{{ item.total }}</td>
+                </tr>
+                {% endfor %}
+                <tr>
+                    <td colspan="3"></td>
+                    <td><b>Total :</b></td>
+                    <td><b>{{ invoice.returnItemsTotal }}</b></td>
+                </tr>
+            </tbody>
+        </table>
+        {% endif %}
+
+        <div class="totals">
+            <p><strong>Invoice Total:</strong> {{ invoice.invoiceTotal }}</p>
+            <p><strong>Customer Paid:</strong> {{ invoice.customerPaid }}</p>
+            {% if invoice.discount != 0 %}
+            <p><strong>Discount:</strong> {{ invoice.discount }}</p>
+            {% endif %}
+            {% if invoice.currentTransactionBalance != 0 %}
+            <p><strong>Balance:</strong> {{ invoice.currentTransactionBalance }}</p>
+            {% endif %}
+        </div>
+    </div>
+    <br>
+    <p style="width: 30%; float: right">Authorized Signature</p>
+</body>
+
+</html>

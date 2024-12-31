@@ -1,7 +1,6 @@
 .invoice-form-container {
   width: 87%;
-
-  margin: 50px auto;
+  margin: 2% auto;
   padding: 20px;
   border: 1px solid #eaeaea;
   border-radius: 8px;
@@ -20,7 +19,6 @@
     label {
       display: block;
       margin-bottom: 8px;
-      font-size: 14px;
       font-weight: bold;
       color: #000;
     }
@@ -28,7 +26,6 @@
     .form-control {
       width: 100%;
       padding: 10px;
-      font-size: 14px;
       border: 1px solid #eaeaea;
       border-radius: 4px;
       transition: border-color 0.3s ease;
@@ -40,7 +37,6 @@
 
     .error-message {
       color: red;
-      font-size: 12px;
       margin-top: 5px;
     }
   }
@@ -78,6 +74,7 @@
     }
 
     .form-control {
+      padding: 1px;
       margin-bottom: 0;
     }
   }
@@ -87,7 +84,7 @@
     border: none;
     border-radius: 5px;
     cursor: pointer;
-    font-size: 16px;
+    
     transition: background-color 0.3s ease;
 
     &:hover {
@@ -132,7 +129,7 @@
 
 
   .summary-details p {
-    font-size: 16px;
+    
     margin: 10px 0;
   }
 
@@ -154,7 +151,7 @@
 }
 
 .invoice-container{
-  padding: 0 3%;
+  // padding: 0 1%;
 }
 
 

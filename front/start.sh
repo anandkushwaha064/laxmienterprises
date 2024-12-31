@@ -48,7 +48,7 @@ function check_ssl_certificate() {
 
 	echo "Generating a new certificate..."
 	# generate a new certificate
-	openssl req -days 365 -nodes -x509 -newkey rsa:4096 -keyout ${PRIVKEY} -out ${CERTFILE} -sha256 -days 365 -subj '/CN=localhost'
+	openssl req -days 365 -nodes -x509 -newkey rsa:4096 -keyout ${PRIVKEY} -out ${CERTFILE} -sha256 -days 365 -subj '/CN=laxmi.enterprises.com'
 
 	echo -e "\e[32mOK\e[0m"
 }

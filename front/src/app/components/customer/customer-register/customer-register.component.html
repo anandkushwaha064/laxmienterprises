@@ -1,6 +1,6 @@
 <div class="customer-register-container">
   <div class="container-header">
-    <h2>{{ isEditMode ? 'Update Customer' : 'Register New Customer' }}</h2>
+    <h4>{{ isEditMode ? 'Update Customer' : 'Register New Customer' }}</h4>
   </div>
 
   <form (ngSubmit)="onSubmit(customerForm)" #customerForm="ngForm">
@@ -66,7 +66,7 @@
       <!-- Submit Button -->
       <div class="col-md-10"></div>
       <div class="col-md-2">
-        <button type="submit" class="btn btn-primary w-100 btn-sm" [disabled]="customerForm.invalid">
+        <button type="submit" class="btn btn-success w-100 btn-sm" [disabled]="customerForm.invalid">
           {{ isEditMode ? 'Update' : 'Save' }}
         </button>
       </div>

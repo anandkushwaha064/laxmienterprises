@@ -76,7 +76,7 @@ checkMobileNumber(mobile_number: any) {
 }
 
   // Load the item details for editing
-  loadItem(): void {
+  loadCustomer(): void {
     if (this.customerId) {
       this.isEditMode = true;
       // Fetch customer details if in edit mode
@@ -99,7 +99,7 @@ checkMobileNumber(mobile_number: any) {
       this.customerId = params['id'];
       if (this.customerId) {
         this.isEditMode = true;
-        this.loadItem(); // Load item details for editing
+        this.loadCustomer(); // Load item details for editing
       } else {
         this.isEditMode = false; // Default to add mode
       }

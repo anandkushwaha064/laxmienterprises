@@ -10,13 +10,14 @@ export interface SaleItem
   invoice_id?: number;
   total: number;
   customItem: boolean; 
+  availble: number; 
 }
 
 // Invoice items array (dynamic rows)
 export interface ReturnItem extends SaleItem 
 {
   name: string;
-  debuction: number;  
+  deduction: number;  
   deduction_on_return?: number;
 }
 
@@ -27,11 +28,15 @@ export interface Invoice{
   invoiceItems: SaleItem[]
   returnItems: ReturnItem[]
   discount: number; 
-  saleItemsTotal: number; 
+  invoiceItemsTotal: number; 
   returnItemsTotal: number; 
-  customerPay: number;
+  customerPaid: number;
   customerReturn: number;
   invoiceTotal: number;
-  last_updated_by: string;
-  creation_datetime: string;
+  last_updated_by?: string;
+  creation_datetime?: string;
+  currentTransactionBalance?:number;
+  sale_date_time?: Date;
+  customerName?: string;
+  isEditMode?: boolean;
 }

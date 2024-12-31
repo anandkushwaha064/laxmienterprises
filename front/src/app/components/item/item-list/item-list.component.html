@@ -1,7 +1,7 @@
 <div class="item-list-container">
   <div class="item-list-header">
-    <h2>Item List</h2>
-    <button class="add-item-btn" (click)="addItem()">Add Item</button>
+    <h4>Item List</h4>
+    <button class="btn btn-sm btn-primary" (click)="addItem()">Add Item</button>
   </div>
 
   <!-- Search Filter -->
@@ -22,32 +22,32 @@
         <th>Price</th>
         <th>Quantity</th>
         <th>Quantity Type</th> <!-- Updated to reflect the correct field name -->
-        <th>Category</th>
+        <!-- <th>Category</th> -->
         <th>Return Deduction</th>
         <th>Last Updated</th>
-        <th>Description</th>
+        <!-- <th>Description</th> -->
         <th>Actions</th>
       </tr>
     </thead>
     <tbody>
       <tr *ngFor="let item of filteredItems()">
-        <td>{{ item.id }}</td>
+        <td class="link">{{ item.id }}</td>
         <td>{{ item.item_name }}</td>
         <td>{{ item.item_sale_prize | currency }}</td>
         <td>{{ item.item_prize | currency }}</td>
         <td>{{ item.item_quantity }}</td>
         <td>{{ displayQuantityType(item.quantity_type) }}</td> <!-- Show correct quantity type -->
-        <td>{{ item.category }}</td>
+        <!-- <td>{{ item.category }}</td> -->
         <td>{{ item.deduction_on_return }}%</td>
         <td>{{ item.last_update  | date:'short'  }}</td>
-        <td>{{ item.description }}</td>
+        <!-- <td>{{ item.description }}</td> -->
         <td class="action-td" >
             <button
               type="button"
               class="btn btn-primary btn-sm"
               (click)="editItem(item)"
             >
-              Edit
+            <span class="material-icons" style="cursor: pointer;">edit</span>
             </button>
             &nbsp;
             <button
@@ -55,7 +55,7 @@
               class="btn btn-danger btn-sm"
               (click)="deleteItem(item)"
             >
-              Delete
+            <span class="material-icons" style="cursor: pointer;">delete</span>
             </button>
     
         </td>

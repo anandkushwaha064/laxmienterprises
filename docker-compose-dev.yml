@@ -1,8 +1,7 @@
 services:
 
-  mysql:
+  mysql-dev:
     image: mysql:8.0
-    container_name: mysql-container
     restart: always
     environment:
       MYSQL_ROOT_PASSWORD: password
@@ -13,33 +12,43 @@ services:
     expose:
       - 3306
     volumes:
-      - ./mysql_data:/var/lib/mysql
+      - ./mysql_data_new:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "127.0.0.1", "-uroot", "-proot_passsword"]
+      interval: 10s        # Time between health checks
+      timeout: 5s          # Time before health check fails
+      retries: 5           # Number of retries before marking the container unhealthy
+      start_period: 0s    # Time before health checks start
     networks:
       - internal
 
-  backend:
+  backend-dev:
     build:
       context: backend
       dockerfile: Dockerfile
     logging:
       driver: json-file
     # command: bash start.sh
-    command: sleep infinity
+    # command: sleep infinity
+    entrypoint: bash /backend/start.sh
     volumes:
       - ./backend:/backend
     environment:
       - PYTHONUNBUFFERED=1
+      - MYSQLHOST=mysql-dev
+      - DEBUG=True
     expose:
       - "8000"
     ports:
       - "8000:8000"
     depends_on:
-      - mysql
+      mysql-dev:
+        condition: service_healthy
     networks:
      - internal
     restart: always
 
-  front:
+  front-dev:
     build:
       context: front
       dockerfile: Dockerfile-Dev

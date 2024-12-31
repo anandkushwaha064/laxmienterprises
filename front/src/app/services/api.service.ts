@@ -26,6 +26,10 @@ export class ApiService {
      */
 
     // Fetch all users
+    getSettings(): Observable<any> {
+        return this.http.get(`${this.baseUrl}settings/`);
+    }
+    // Fetch all users
     getUsers(): Observable<any> {
         return this.http.get(`${this.baseUrl}user/`);
     }
@@ -127,9 +131,11 @@ export class ApiService {
     }
 
     // Fetch a sale item by its ID
-    getInvoiceById(saleItemId: number): Observable<any> {
-        return this.http.get(`${this.baseUrl}invoice/${saleItemId}/`);
+    getInvoiceById(invoiceId: number): Observable<any> {
+        return this.http.get(`${this.baseUrl}invoice/${invoiceId}/`);
     }
+
+    
 
     // Create a new sale item
     createInvoice(saleItemData: any): Observable<any> {
@@ -137,12 +143,18 @@ export class ApiService {
     }
 
     // Update an existing sale item by its ID
-    updateInvoice(saleItemId: number, saleItemData: any): Observable<any> {
-        return this.http.put(`${this.baseUrl}invoice/update/${saleItemId}/`, saleItemData);
+    updateInvoice(invoiceId: number, saleItemData: any): Observable<any> {
+        return this.http.put(`${this.baseUrl}invoice/update/${invoiceId}/`, saleItemData);
     }
 
     // Delete a sale item by its ID
-    deleteInvoice(saleItemId: number): Observable<any> {
-        return this.http.delete(`${this.baseUrl}invoice/delete/${saleItemId}/`);
+    deleteInvoice(invoiceId: number): Observable<any> {
+        return this.http.delete(`${this.baseUrl}invoice/delete/${invoiceId}/`);
     }
+    
+    // Delete a sale item by its ID
+    invoicePDF(invoiceId: number): Observable<any> {
+        return this.http.get(`${this.baseUrl}invoice/getPDF/${invoiceId}/`);
+    }
+
 }

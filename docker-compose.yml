@@ -1,0 +1,61 @@
+services:
+
+  mysql:
+    image: mysql:8.0
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: password
+      MYSQL_DATABASE: LaxmiEnterprises
+
+    expose:
+      - 3306
+    volumes:
+      - ./shared/mysql_data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "127.0.0.1", "-uroot", "-proot_passsword"]
+      interval: 10s        # Time between health checks
+      timeout: 5s          # Time before health check fails
+      retries: 5           # Number of retries before marking the container unhealthy
+      start_period: 0s    # Time before health checks start
+    networks:
+      - billing-app
+
+  backend:
+    image: laxmi/backend
+    logging:
+      driver: json-file
+    # command: sleep infinity
+    volumes:
+      - ./shared/migrations:/backend/migrations
+      - ./shared/inits:/backend/inits
+      - ./backend/defaults:/backend/defaults
+      - ./backend/start.sh:/backend/start.sh
+    environment:
+      - PYTHONUNBUFFERED=1
+      - MYSQLHOST=mysql
+
+    entrypoint: bash /backend/start.sh
+    expose:
+      - "8000"
+    depends_on:
+      mysql:
+        condition: service_healthy
+    networks:
+     - billing-app
+    restart: always
+
+  front:
+    image: laxmi/front
+    ports:
+    - "443:443"
+    volumes:
+      - ./shared/apache-conf/metadata:/front/apache-conf/metadata
+    # working_dir: /front
+    entrypoint: bash /front/start.sh
+    networks:
+      - billing-app
+    restart: always
+
+networks:
+  billing-app:
+    driver: "bridge"

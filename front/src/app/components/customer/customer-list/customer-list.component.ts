@@ -35,7 +35,6 @@ export class CustomerListComponent {
       (error) => {
         console.error('Error fetching customers:', error);
         alert('Failed to load customer data.');
-        
       }
     );
   }

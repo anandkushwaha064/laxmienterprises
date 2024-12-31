@@ -1,5 +1,5 @@
 
-/mysql_data
+/mysql_data*
 
 
 # See https://docs.github.com/get-started/getting-started-with-git/ignoring-files for more about ignoring files.
@@ -7,7 +7,6 @@
 # Compiled output
 /__pycache__/*
 __pycache*
-migrations/
 
 # Byte-compiled / optimized / DLL files
 *.pyc
@@ -15,9 +14,8 @@ migrations/
 *.pyd
 __pycache__/
 
-# Django migration files
-**/migrations/*
-!**/migrations/__init__.py
+shared
+shared copy
 
 # Virtual environment folder
 venv/
@@ -30,3 +28,5 @@ ENV/
 # Ignore logs and databases
 *.log
 *.sqlite3
+
+**/000*

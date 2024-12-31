@@ -1,0 +1,183 @@
+[
+    {
+      "model": "item.item",
+      "pk": 1,
+      "fields": {
+        "item_name": "Laptop",
+        "item_quantity": 15,
+        "quantity_type": "piece",
+        "category": "Electronics",
+        "item_prize": 1200.00,
+        "item_sale_prize": 1100.00,
+        "deduction_on_return": 50.00,
+        "description": "High-performance laptop with 16GB RAM and SSD storage",
+        "creation_datetime": "2024-12-29T12:00:00Z",
+        "last_update": "2024-12-29T12:00:00Z",
+        "is_active": true,
+        "last_updated_by": "anand"
+      }
+    },
+    {
+      "model": "item.item",
+      "pk": 2,
+      "fields": {
+        "item_name": "Smartphone",
+        "item_quantity": 50,
+        "quantity_type": "piece",
+        "category": "Electronics",
+        "item_prize": 500.00,
+        "item_sale_prize": 450.00,
+        "deduction_on_return": 20.00,
+        "description": "Latest model smartphone with AMOLED display",
+        "creation_datetime": "2024-12-29T12:00:00Z",
+        "last_update": "2024-12-29T12:00:00Z",
+        "is_active": true,
+        "last_updated_by": "anand"
+      }
+    },
+    {
+      "model": "item.item",
+      "pk": 3,
+      "fields": {
+        "item_name": "Refrigerator",
+        "item_quantity": 8,
+        "quantity_type": "piece",
+        "category": "Appliances",
+        "item_prize": 800.00,
+        "item_sale_prize": 750.00,
+        "deduction_on_return": 30.00,
+        "description": "Double-door refrigerator with advanced cooling technology",
+        "creation_datetime": "2024-12-29T12:00:00Z",
+        "last_update": "2024-12-29T12:00:00Z",
+        "is_active": true,
+        "last_updated_by": "anand"
+      }
+    },
+    {
+      "model": "item.item",
+      "pk": 4,
+      "fields": {
+        "item_name": "LED TV",
+        "item_quantity": 25,
+        "quantity_type": "piece",
+        "category": "Electronics",
+        "item_prize": 700.00,
+        "item_sale_prize": 650.00,
+        "deduction_on_return": 25.00,
+        "description": "42-inch LED TV with 4K Ultra HD resolution",
+        "creation_datetime": "2024-12-29T12:00:00Z",
+        "last_update": "2024-12-29T12:00:00Z",
+        "is_active": true,
+        "last_updated_by": "anand"
+      }
+    },
+    {
+      "model": "item.item",
+      "pk": 5,
+      "fields": {
+        "item_name": "Microwave Oven",
+        "item_quantity": 12,
+        "quantity_type": "piece",
+        "category": "Appliances",
+        "item_prize": 300.00,
+        "item_sale_prize": 280.00,
+        "deduction_on_return": 10.00,
+        "description": "Compact microwave oven with grill function",
+        "creation_datetime": "2024-12-29T12:00:00Z",
+        "last_update": "2024-12-29T12:00:00Z",
+        "is_active": true,
+        "last_updated_by": "anand"
+      }
+    },
+    {
+      "model": "item.item",
+      "pk": 6,
+      "fields": {
+        "item_name": "Washing Machine",
+        "item_quantity": 6,
+        "quantity_type": "piece",
+        "category": "Appliances",
+        "item_prize": 450.00,
+        "item_sale_prize": 420.00,
+        "deduction_on_return": 15.00,
+        "description": "Fully automatic washing machine with 6kg capacity",
+        "creation_datetime": "2024-12-29T12:00:00Z",
+        "last_update": "2024-12-29T12:00:00Z",
+        "is_active": true,
+        "last_updated_by": "anand"
+      }
+    },
+    {
+      "model": "item.item",
+      "pk": 7,
+      "fields": {
+        "item_name": "Air Conditioner",
+        "item_quantity": 10,
+        "quantity_type": "piece",
+        "category": "Appliances",
+        "item_prize": 1000.00,
+        "item_sale_prize": 950.00,
+        "deduction_on_return": 40.00,
+        "description": "Energy-efficient split air conditioner with remote control",
+        "creation_datetime": "2024-12-29T12:00:00Z",
+        "last_update": "2024-12-29T12:00:00Z",
+        "is_active": true,
+        "last_updated_by": "anand"
+      }
+    },
+    {
+      "model": "item.item",
+      "pk": 8,
+      "fields": {
+        "item_name": "Electric Kettle",
+        "item_quantity": 30,
+        "quantity_type": "piece",
+        "category": "Kitchen Appliances",
+        "item_prize": 40.00,
+        "item_sale_prize": 35.00,
+        "deduction_on_return": 5.00,
+        "description": "Fast boiling electric kettle with 1.5L capacity",
+        "creation_datetime": "2024-12-29T12:00:00Z",
+        "last_update": "2024-12-29T12:00:00Z",
+        "is_active": true,
+        "last_updated_by": "anand"
+      }
+    },
+    {
+      "model": "item.item",
+      "pk": 9,
+      "fields": {
+        "item_name": "Gaming Console",
+        "item_quantity": 7,
+        "quantity_type": "piece",
+        "category": "Electronics",
+        "item_prize": 400.00,
+        "item_sale_prize": 370.00,
+        "deduction_on_return": 20.00,
+        "description": "Next-gen gaming console with 1TB storage",
+        "creation_datetime": "2024-12-29T12:00:00Z",
+        "last_update": "2024-12-29T12:00:00Z",
+        "is_active": true,
+        "last_updated_by": "anand"
+      }
+    },
+    {
+      "model": "item.item",
+      "pk": 10,
+      "fields": {
+        "item_name": "Bluetooth Speaker",
+        "item_quantity": 40,
+        "quantity_type": "piece",
+        "category": "Audio",
+        "item_prize": 60.00,
+        "item_sale_prize": 55.00,
+        "deduction_on_return": 5.00,
+        "description": "Portable Bluetooth speaker with high-quality sound",
+        "creation_datetime": "2024-12-29T12:00:00Z",
+        "last_update": "2024-12-29T12:00:00Z",
+        "is_active": true,
+        "last_updated_by": "anand"
+      }
+    }
+  ]
+  

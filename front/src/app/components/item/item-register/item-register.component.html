@@ -3,7 +3,7 @@
 <div class="item-register-container">
 
     <div class="container-header">
-        <h2>{{ isEditMode ? 'Update' : 'Add New' }} Item</h2>
+        <h4>{{ isEditMode ? 'Update' : 'Add New' }} Item</h4>
     </div>
 
     <form (ngSubmit)="onSubmit(itemForm)" #itemForm="ngForm">
@@ -124,7 +124,7 @@
             <!-- Submit Button -->
             <div class="col-md-10"></div>
             <div class="col-md-2">
-                <button type="submit" class="btn btn-success w-100" [disabled]="itemForm.invalid"> {{ isEditMode ?
+                <button type="submit" class="btn btn-success btn-sm w-100" [disabled]="itemForm.invalid"> {{ isEditMode ?
                     'Update' : 'Add' }} Item</button>
             </div>
 

@@ -1,27 +1,26 @@
-# Stage 1: Build the Angular application
-FROM node:20 AS build
+# # Stage 1: Build the Angular application
+# FROM node:20 AS build
 
-# Set the working directory inside the container
-WORKDIR /app
+# # Set the working directory inside the container
+# WORKDIR /app
 
-# Copy package.json and package-lock.json to the working directory
-COPY package*.json ./
+# # Copy package.json and package-lock.json to the working directory
+# COPY package*.json ./
 
-# Install dependencies
-RUN npm ci
+# # Install dependencies
+# RUN npm ci
 
-# Copy the rest of the application code
-COPY . .
+# # Copy the rest of the application code
+# COPY . .
 
-# Build the Angular application
-RUN npx ng build -c production 
+# # Build the Angular application
+# RUN npx ng build -c production 
 
 # Stage 2: Serve the application with Nginx
 FROM httpd:2.4.48
 
-WORKDIR /code/front
-# Copy the Angular build output to the Nginx HTML directory
-COPY --from=build /app/dist/ /usr/local/apache2/htdocs
+
+SHELL ["/bin/bash", "-c"]
 
 RUN apt-get update
 RUN apt-get install -y pkg-config make gcc gdb lcov valgrind vim curl iputils-ping wget
@@ -30,7 +29,16 @@ RUN apt-get install -y libssl-dev libjansson-dev libcurl4-openssl-dev check
 RUN apt-get install -y libpcre3-dev zlib1g-dev libcjose0 libcjose-dev
 RUN apt-get install -y libapache2-mod-security2
 
-COPY start_server.sh start_server.sh
+WORKDIR /front
+# Copy the Angular build output to the Nginx HTML directory
+# COPY --from=build /app/dist/ /usr/local/apache2/htdocs
+COPY /dist/front/browser /usr/local/apache2/htdocs
+COPY  ./apache-conf/httpd.conf /usr/local/apache2/conf/httpd.conf
+COPY  ./apache-conf/openidc.conf /usr/local/apache2/conf/openidc.conf
+COPY  ./apache-conf/paths.conf /usr/local/apache2/conf/paths.conf
+COPY  ./apache-conf/mod_auth_openidc.so /usr/local/apache2/modules/mod_auth_openidc.so
+
+COPY start.sh start.sh
 
 RUN chown -R www-data:www-data /usr/local/apache2/logs
 RUN chmod -R 755 /usr/local/apache2/logs
@@ -39,8 +47,10 @@ RUN touch /usr/local/apache2/logs/error_log
 RUN touch /usr/local/apache2/logs/access.log
 
 # # Ensure start.sh has execution permissions and run it
-RUN chmod +x ./start_server.sh
+RUN chmod +x ./start.sh
 # Expose port 80
-EXPOSE 80
+EXPOSE 433
 # Start Nginx server
-ENTRYPOINT ["start_server.sh"]
+ENTRYPOINT ["start.sh"]
+
+# docker build -t laxmi/front .

@@ -1,104 +1,149 @@
 <div class="invoice-form-container">
-  <form (ngSubmit)="onSubmit(invoiceForm)" #invoiceForm="ngForm">
+  <form (ngSubmit)="onSubmit(invoiceForm)" #invoiceForm="ngForm" >
     <div class="row g-3 invoice-container">
       <div class="container-header">
-        <h2>Create Invoice</h2>
-        <button type="submit" class="btn btn-primary" [disabled]="invoiceForm.invalid" cl>Save Invoice</button>
+        <h4>{{invoice.isEditMode?disable?"View":"Update":"Create"}} Invoice</h4>
+        <h4></h4>
+        <h4></h4>
+        <h4></h4>
+        <h4></h4>
+        <h4></h4>
+        <h4></h4>
+        <h4></h4>
+        <h4></h4>
+        <h4></h4>
+        <h4></h4>
+        <h4></h4>
+        <h4></h4>
+        <button type="submit" *ngIf="!disable" class="btn btn-sm btn-success" [disabled]="invoiceForm.invalid" cl>{{invoice.isEditMode?"Update":"Save"}} Invoice</button>
+        <button (click)="disable=!disable" *ngIf="disable" class="btn btn-sm btn-primary" [disabled]="invoiceForm.invalid" cl>Edit Invoice</button>
+        <!-- <button *ngIf="disable" class="btn btn-sm btn-secondary">
+          <span class="material-icons" (click)="printInvoice(invoice.id)" style="cursor: pointer;">print</span>
+        </button> -->
+        <a class="btn btn-sm btn-secondary" href="/api/invoice/getPDF/'{{invoice.id}}" _blank>
+          <span class="material-icons" style="cursor: pointer;">print</span>
+        </a>
       </div>
       <div class="col-md-12 table-div-container">
-        <div class="row g-3">
+        <div class="row g-3"> 
           <div class="col-md-6 div-container">
             <!-- Customer Selection -->
-            <h5>Customer Details</h5>
+            <h6>Customer Details</h6>
             <div class="col-md-12" style="margin-top:5% ;">
-              <select [(ngModel)]="invoice.customer" name="customer" class="form-control" required
+              <select [(ngModel)]="invoice.customer" name="customer" class="form-control" required  [disabled]="disable" 
                 (ngModelChange)="onCustomerSelect()">
                 <option value="">Select Customer</option>
                 <option *ngFor="let customer of customers" [ngValue]="customer.id">
                   {{ customer.mobile_number }} &nbsp;&nbsp;&nbsp; {{ customer.customer_name }}
                 </option>
               </select>
-              <button class="btn btn-primary mt-2" type="button" (click)="navigateToCreateCustomer()">
-                + Add Customer</button>
+              <app-errors *ngIf="errors.customer_info" [errors]="errors.customer_info"></app-errors>
+              <!-- <p *ngIf="errors.customer_info"> {{errors.customer_info | }}</p> -->
+              <button *ngIf='!disable' class="btn btn-sm btn-link mt-2" type="button" (click)="navigateToCreateCustomer()">
+               Add new customer</button>
             </div>
             <br>
             <hr>
-            <h5>Customer Deposit</h5>
+            <h6>Customer Deposit</h6>
 
             <div class="col-md-12">
-              <label for="balance" class="form-label">Customer Pay</label>
-              <input type="number" id="customerPay" name="customerPay" #customerPay="ngModel" class="form-control"
-                [(ngModel)]="invoice.customerPay" min="0" (ngModelChange)="calculateOverallTotal()" />
+              <label for="customerPaid" class="form-label">Customer Paid</label>
+              <input type="number" id="customerPaid" name="customerPaid" #customerPaid="ngModel" class="form-control" [disabled]="disable" 
+                [(ngModel)]="invoice.customerPaid" min="0" (ngModelChange)="calculateOverallTotal()" />
+            </div>
+            <div class="col-md-12">
+              <label for="customerReturn" class="form-label">Customer Return</label>
+              <input type="number" id="customerReturn" name="customerReturn" class="form-control" #customerReturn="ngModel" [disabled]="disable" 
+                [(ngModel)]="invoice.customerReturn" min="0" (ngModelChange)="calculateOverallTotal()" />
             </div>
             <div class="col-md-12">
               <label for="discount" class="form-label">Discount</label>
-              <input type="number" id="discount" name="discount" class="form-control" #discount="ngModel"
+              <input type="number" id="discount" name="discount" class="form-control" #discount="ngModel" [disabled]="disable" 
                 [(ngModel)]="invoice.discount" min="0" (ngModelChange)="calculateOverallTotal()" />
             </div>
           </div>
-          <div class="col-md-2 "></div>
-          <div class="col-md-4 div-container">
+          <div class="col-md-1 "></div>
+          <div class="col-md-5 div-container">
             <div class="row g-3">
               <div class="col-md-12">
-                <h5>Transaction Summary</h5>
+                <h6>Transaction Summary</h6>
               </div>
 
-              <div class="col-md-6">
+              <div class="col-md-7">
                 <strong>Customer:</strong>
               </div>
-              <div class="col-md-6">
+              <div class="col-md-5">
                 {{ customer?customer.customer_name:'' }}
               </div>
-              <div class="col-md-6">
+              <div class="col-md-7">
                 <strong>Date:</strong>
               </div>
-              <div class="col-md-6">
-                {{ todayDate | date:'dd-MMM-yyyy HH:mm'  }}
+              <div class="col-md-5">
+                {{ invoice.sale_date_time | date:'dd-MMM-yyyy HH:mm'  }}
               </div>
               <hr>
-              <div class="col-md-6">
+              <div class="col-md-7">
                 <strong>Total Sale (Items): </strong>
               </div>
-              <div class="col-md-6">
-                {{ invoice.saleItemsTotal | currency }} ({{ invoice.saleItemsTotal > 0 ?invoice.saleItems.length:0}})
+              <div class="col-md-5">
+                {{ invoice.invoiceItemsTotal | currency }} ({{ invoice.invoiceItemsTotal > 0 ?invoice.invoiceItems.length:0}})
               </div>
-              <div class="col-md-6">
+              <div class="col-md-7">
                 <strong>Total Return (Items):</strong>
               </div>
-              <div class="col-md-6">
+              <div class="col-md-5">
                 {{ invoice.returnItemsTotal | currency }} ({{ invoice.returnItemsTotal > 0 ?invoice.returnItems.length:0
                 }})
               </div>
-              <div class="col-md-6">
+              <div class="col-md-7">
                 <strong>Total Amount:</strong>
               </div>
-              <div class="col-md-6">
-                {{ invoice.saleItemsTotal - invoice.returnItemsTotal | currency }}
+              <div class="col-md-5">
+                {{ invoice.invoiceItemsTotal - invoice.returnItemsTotal | currency }}
               </div>
-              <div class="col-md-6">
+              <div class="col-md-7">
                 <strong>Discount:</strong>
               </div>
-              <div class="col-md-6">
+              <div class="col-md-5">
                 {{ invoice.discount | currency }}
               </div>
-              <div class="col-md-6">
+              <div class="col-md-7">
                 <strong>Invoice Total :</strong>
               </div>
-              <div class="col-md-6">
+              <div class="col-md-5">
                 {{ invoice.invoiceTotal | currency }}
               </div>
               <hr>
-              <div class="col-md-6">
+              <div class="col-md-7">
                 <strong>Cash Received :</strong>
               </div>
-              <div class="col-md-6">
-                {{ invoice.customerPay | currency }}
+              <div class="col-md-5">
+                {{ invoice.customerPaid | currency }}
               </div>
-              <div class="col-md-6">
-                <strong>Remaning:</strong>
+              <div class="col-md-7">
+                <strong>Cash Returned :</strong>
               </div>
-              <div class="col-md-6">
-                {{ invoice.invoiceTotal - invoice.customerPay | currency }}
+              <div class="col-md-5">
+                {{ invoice.customerReturn | currency }}
+              </div>
+              <div class="col-md-7">
+                <strong>Current Invoice Balance:</strong>
+              </div>
+              <div class="col-md-5">
+                {{ currentTransactionBalance | currency }}
+              </div>
+              <hr>
+              <div class="col-md-7">
+                <strong> Customer Old Balance :</strong>
+              </div>
+              <div class="col-md-5">
+                {{ (customer? customer.balance : 0) | currency }}
+              </div>
+              <div class="col-md-7">
+                <strong>Customer New Balance:</strong>
+              </div>
+              <div class="col-md-5">
+                {{ customerNewBalance | currency }}
               </div>
 
             </div>
@@ -108,22 +153,23 @@
       </div>
       <!-- Sale Items Section -->
       <div class="col-md-12 table-div-container">
-        <h5>Sale Items</h5>
+        <h6>Sale Items</h6>
         <table class="table table-striped">
           <thead>
             <tr>
               <th>Item</th>
               <th>Sale Price</th>
+              <th>Available</th>
               <th>Quantity</th>
               <th>Quantity Type</th>
               <th>Total</th>
-              <th>Actions</th>
+              <th *ngIf="!disable">Actions</th>
             </tr>
           </thead>
           <tbody>
-            <tr *ngFor="let item of invoice.saleItems; let i = index">
+            <tr *ngFor="let item of invoice.invoiceItems; let i = index">
               <td style="width: 25%;">
-                <select [(ngModel)]="item.item" name="item{{ i }}" class="form-control"
+                <select [(ngModel)]="item.item" name="item{{ i }}" class="form-control" [disabled]="disable" 
                   (ngModelChange)="onItemChange(i, $event)" required>
                   <option value="">Select Item</option>
                   <option *ngFor="let availableItem of availableItems" [ngValue]="availableItem.id">
@@ -132,15 +178,18 @@
                 </select>
               </td>
               <td>
-                <input type="number" [(ngModel)]="item.item_sale_price" name="item_sale_price{{ i }}"
+                <input type="number" [(ngModel)]="item.item_sale_price" name="item_sale_price{{ i }}" [disabled]="disable" 
                   (ngModelChange)="calculateRowTotal(i)" class="form-control" required min="0" />
               </td>
               <td>
-                <input type="number" [(ngModel)]="item.item_quantity" name="item_quantity{{ i }}" class="form-control"
+                {{item.availble}} {{item.item_quantity_type}}
+              </td>
+              <td>
+                <input type="number" [(ngModel)]="item.item_quantity" name="item_quantity{{ i }}" class="form-control" [disabled]="disable" 
                   required min="0" (ngModelChange)="calculateRowTotal(i)" />
               </td>
               <td style="width: 15%;">
-                <select [(ngModel)]="item.item_quantity_type" name="item_quantity_type{{ i }}" class="form-control"
+                <select [(ngModel)]="item.item_quantity_type" name="item_quantity_type{{ i }}" class="form-control" [disabled]="disable" 
                   (ngModelChange)="calculateRowTotal(i)" required>
                   <option value="">Select Item</option>
                   <option *ngFor="let quantityType of quantityTypes" [ngValue]="quantityType[0]">
@@ -153,13 +202,13 @@
                 {{ item.total | currency }}
               </td>
               <td style="width: 5%;">
-                <button type="button" class="btn btn-danger btn-sm" (click)="removeItemRow(i)">-</button>
+                <button type="button" *ngIf="!disable" class="btn btn-danger btn-sm" (click)="removeItemRow(i)">-</button>
               </td>
             </tr>
             <tr>
-              <td colspan="4"><strong>Total:</strong></td>
-              <td><strong>{{ invoice.saleItemsTotal | currency }}</strong></td>
-              <td><button type="button" class="btn btn-primary btn-sm" (click)="addItemRow()">+</button></td>
+              <td colspan="5"><strong>Total:</strong></td>
+              <td><strong>{{ invoice.invoiceItemsTotal | currency }}</strong></td>
+              <td><button type="button" *ngIf="!disable" class="btn btn-secondary btn-sm" (click)="addItemRow()">+</button></td>
             </tr>
           </tbody>
         </table>
@@ -167,7 +216,7 @@
 
       <!-- Return Items Section -->
       <div class="col-md-12 table-div-container">
-        <h5>Return Items</h5>
+        <h6>Return Items</h6>
         <table class="table table-striped">
           <thead>
             <tr>
@@ -177,13 +226,13 @@
               <th>Quantity</th>
               <th>Quantity Type</th>
               <th>Total</th>
-              <th>Actions</th>
+              <th *ngIf="!disable">Actions</th>
             </tr>
           </thead>
           <tbody>
             <tr *ngFor="let item of invoice.returnItems; let i = index">
               <td style="width: 25%;">
-                <select [(ngModel)]="item.item" name="return_item{{ i }}" class="form-control" required
+                <select [(ngModel)]="item.item" name="return_item{{ i }}" class="form-control" required [disabled]="disable"
                   (ngModelChange)="onReturnItemChange(i, $event)">
                   <option value="">Select Item</option>
                   <option *ngFor="let availableItem of availableItems" [ngValue]="availableItem.id">
@@ -193,17 +242,12 @@
               </td>
               <td>
                 <input type="number" [(ngModel)]="item.item_sale_price" name="return_item_sale_price{{ i }}"
-                  class="form-control" required min="0" (ngModelChange)="calculateReturnRowTotal(i)" />
+                  class="form-control" required min="0" [disabled]="disable" (ngModelChange)="calculateReturnRowTotal(i)" />
               </td>
               <td>
                 <div class="input-group">
-                  <!-- <input type="text" class="form-control" aria-label="Amount (to the nearest dollar)"> -->
-                  <!-- <input type="number" id="deduction_on_return" name="deduction_on_return" class="form-control"
-                      required min="0" [(ngModel)]="item.deduction_on_return" #deduction_on_return="ngModel"
-                      [ngClass]="{'is-invalid': deduction_on_return.invalid && deduction_on_return.touched, 'is-valid': deduction_on_return.valid && deduction_on_return.touched}" /> -->
-
                   <input type="number" [(ngModel)]="item.deduction_on_return" name="deduction_on_return{{ i }}"
-                    class="form-control" required min="0" (ngModelChange)="calculateReturnRowTotal(i)" />
+                    class="form-control" required min="0" [disabled]="disable" (ngModelChange)="calculateReturnRowTotal(i)" />
                   <div class="input-group-append">
                     <span class="input-group-text">%</span>
                   </div>
@@ -213,11 +257,11 @@
               </td>
               <td>
                 <input type="number" [(ngModel)]="item.item_quantity" name="return_item_quantity{{ i }}"
-                  class="form-control" required min="0" (ngModelChange)="calculateReturnRowTotal(i)" />
+                  class="form-control" required min="0" [disabled]="disable" (ngModelChange)="calculateReturnRowTotal(i)" />
               </td>
               <td style="width: 15%;">
                 <select [(ngModel)]="item.item_quantity_type" name="item_quantity_type_return{{ i }}"
-                  class="form-control" (ngModelChange)="calculateReturnRowTotal(i)" required>
+                  class="form-control" (ngModelChange)="calculateReturnRowTotal(i)" required [disabled]="disable">
                   <option value="">Select Item</option>
                   <option *ngFor="let quantityType of quantityTypes" [ngValue]="quantityType[0]">
                     {{ quantityType[1] }}
@@ -228,13 +272,13 @@
                 {{ item.total | currency }}
               </td>
               <td style="width: 5%;">
-                <button type="button" class="btn btn-danger btn-sm" (click)="removeReturnItemRow(i)">-</button>
+                <button type="button" *ngIf="!disable" class="btn btn-danger btn-sm" (click)="removeReturnItemRow(i)">-</button>
               </td>
             </tr>
             <tr>
               <td colspan="5"><strong>Total:</strong></td>
               <td><strong>{{ invoice.returnItemsTotal | currency }}</strong></td>
-              <td><button type="button" class="btn btn-primary btn-sm" (click)="addReturnItemRow()">+</button>
+              <td><button type="button" *ngIf="!disable" class="btn btn-secondary btn-sm" (click)="addReturnItemRow()">+</button>
               </td>
             </tr>
           </tbody>
