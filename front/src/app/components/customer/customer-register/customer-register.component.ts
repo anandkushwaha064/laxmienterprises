@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { FormsModule, NgForm } from '@angular/forms'; // Import FormsModule and NgForm
-import { HttpClientModule } from '@angular/common/http'; // Import HttpClient for API calls
 import { CommonModule } from '@angular/common';
 import { ApiService } from '@services/api.service'; // Import ApiService
 import { ActivatedRoute, Router } from '@angular/router';
@@ -10,7 +9,7 @@ import { RouterModule } from '@angular/router';
 @Component({
   selector: 'app-customer-register',
   standalone: true,
-  imports: [FormsModule, CommonModule, HttpClientModule, RouterModule],  // Import FormsModule for template-driven forms
+  imports: [FormsModule, CommonModule, RouterModule],  // Import FormsModule for template-driven forms
   templateUrl: './customer-register.component.html',
   styleUrls: ['./customer-register.component.scss'],
   providers: [ApiService]

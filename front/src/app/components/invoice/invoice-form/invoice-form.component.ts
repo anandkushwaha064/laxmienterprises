@@ -1,6 +1,5 @@
 import { Component, OnInit, ViewChild  } from '@angular/core';
 import { FormsModule, NgForm } from '@angular/forms'; // Import FormsModule and NgForm
-import { HttpClientModule, HttpClient, HTTP_INTERCEPTORS } from '@angular/common/http'; // Import HttpClientModule and HttpClient
 import { CommonModule } from '@angular/common'; // Import CommonModule for ngIf, ngFor, etc.
 import { quantityTypes as qts } from '../../data'
 import { Customer, Item } from '@interfaces/commont.interfaces';
@@ -14,7 +13,6 @@ import { registerLocaleData } from '@angular/common';
 import localeIn from '@angular/common/locales/en-IN';  // Import Indian locale
 import { NgModule, LOCALE_ID } from '@angular/core';
 import { DEFAULT_CURRENCY_CODE } from '@angular/core';
-import { AuthInterceptor } from '../../../interceptors/auth-interceptor'
 
 
 
@@ -24,12 +22,11 @@ registerLocaleData(localeIn, 'en-IN');  // Register the Indian locale
 @Component({
   selector: 'app-invoice-form',
   standalone: true,
-  imports: [FormsModule, CommonModule, HttpClientModule, RouterModule, ErrorsComponent], // Import necessary modules
+  imports: [FormsModule, CommonModule, RouterModule, ErrorsComponent], // Import necessary modules
   templateUrl: './invoice-form.component.html',
   styleUrls: ['./invoice-form.component.scss'],
   providers: [
     ApiService,
-    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
     { provide: LOCALE_ID, useValue: 'en-IN' }, // Set locale to India
     { provide: DEFAULT_CURRENCY_CODE, useValue: 'INR' }, // Set default currency to INR
   ],

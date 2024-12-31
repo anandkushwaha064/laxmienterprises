@@ -1,11 +1,23 @@
-import json
+import json, requests, re, traceback
 from django.utils.deprecation import MiddlewareMixin
 from django.http import JsonResponse
 from django.contrib.auth.models import User
 
 class LastUpdatedByMiddleware(MiddlewareMixin):
     def process_request(self, request):
-        print("processing request")
+        
+        email = request.META.get('HTTP_PROXY_USER',None)
+        
+        # # Check if the user is authenticated
+        if not email:
+            return JsonResponse({'error': 'Unauthorized: User is not authenticated'}, status=401)
+        try:
+            user = User.objects.get(email=email)
+            request.user = user
+            
+        except Exception:
+            return JsonResponse({'error': 'Unauthorized: User is not authenticated'}, status=401)
+            
         # Apply middleware only for POST, PUT, and PATCH requests
         if request.method in ['POST', 'PUT', 'PATCH']:
             # Ensure the user is authenticated

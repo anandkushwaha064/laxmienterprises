@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { HttpClientModule } from '@angular/common/http'; // Import HttpClient for API calls
 import { CommonModule } from '@angular/common';
 import { ApiService } from '@services/api.service'; // Import ApiService
 import { ActivatedRoute, Router } from '@angular/router';
@@ -9,7 +8,7 @@ import { RouterModule } from '@angular/router';
 @Component({
   selector: 'app-contact-us',
   standalone: true,
-  imports: [ CommonModule, HttpClientModule, RouterModule],  // Import FormsModule for template-driven forms
+  imports: [ CommonModule, RouterModule],  // Import FormsModule for template-driven forms
   templateUrl: './contact-us.component.html',
   styleUrls: ['./contact-us.component.scss'],
   providers: [ApiService]
@@ -30,7 +29,7 @@ export class ContactUsComponent implements OnInit {
       // Fetch customer details if in edit mode
       this.apiService.getSettings().subscribe(
         (response) => {
-          for (let i=0; i<=response.length; i++){
+          for (let i=0; i<response.length; i++){
             this.settings[response[i].name] = response[i].value
           }
         },

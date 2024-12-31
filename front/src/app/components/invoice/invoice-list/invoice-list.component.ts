@@ -4,8 +4,6 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ApiService } from '@services/api.service';  // Import ApiService
 import { Invoice } from '@interfaces/invoice.interfaces'
-import { HttpClientModule, HTTP_INTERCEPTORS} from '@angular/common/http';
-import { AuthInterceptor } from '../../../interceptors/auth-interceptor'
 import { registerLocaleData } from '@angular/common';
 import localeIn from '@angular/common/locales/en-IN';  // Import Indian locale
 import { NgModule, LOCALE_ID } from '@angular/core';
@@ -17,13 +15,12 @@ registerLocaleData(localeIn, 'en-IN');  // Register the Indian locale
 @Component({
   selector: 'app-invoice-list',
   standalone: true,
-  imports: [CommonModule, FormsModule, HttpClientModule],
+  imports: [CommonModule, FormsModule],
   templateUrl: './invoice-list.component.html',
   styleUrls: ['./invoice-list.component.scss'],
   // providers: []  // Provide ApiService3
   providers: [
     ApiService,
-    { provide: HTTP_INTERCEPTORS, useClass: AuthInterceptor, multi: true },
     { provide: LOCALE_ID, useValue: 'en-IN' }, // Set locale to India
     { provide: DEFAULT_CURRENCY_CODE, useValue: 'INR' }, // Set default currency to INR
   ],

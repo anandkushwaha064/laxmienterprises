@@ -13,9 +13,9 @@ services:
       - ./shared/mysql_data:/var/lib/mysql
     healthcheck:
       test: ["CMD", "mysqladmin", "ping", "-h", "127.0.0.1", "-uroot", "-proot_passsword"]
-      interval: 10s        # Time between health checks
+      interval: 5s        # Time between health checks
       timeout: 5s          # Time before health check fails
-      retries: 5           # Number of retries before marking the container unhealthy
+      retries: 30           # Number of retries before marking the container unhealthy
       start_period: 0s    # Time before health checks start
     networks:
       - billing-app
@@ -30,11 +30,13 @@ services:
       - ./shared/inits:/backend/inits
       - ./backend/defaults:/backend/defaults
       - ./backend/start.sh:/backend/start.sh
+      - ./backend:/backend
     environment:
       - PYTHONUNBUFFERED=1
       - MYSQLHOST=mysql
 
     entrypoint: bash /backend/start.sh
+    # entrypoint: sleep infinity
     expose:
       - "8000"
     depends_on:
@@ -50,7 +52,7 @@ services:
     - "443:443"
     volumes:
       - ./shared/apache-conf/metadata:/front/apache-conf/metadata
-    # working_dir: /front
+    working_dir: /front
     entrypoint: bash /front/start.sh
     networks:
       - billing-app

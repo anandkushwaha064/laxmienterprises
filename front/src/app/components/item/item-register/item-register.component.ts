@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FormsModule, NgForm } from '@angular/forms';
 import { ApiService } from '@services/api.service';
-import { HttpClientModule } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
 import { Item } from '@interfaces/commont.interfaces';
 import { RouterModule } from '@angular/router';
@@ -12,7 +11,7 @@ import { quantityTypes as qts } from '../../data'
   standalone: true,
   templateUrl: './item-register.component.html',
   styleUrls: ['./item-register.component.scss'],
-  imports: [FormsModule, CommonModule, HttpClientModule, RouterModule],
+  imports: [FormsModule, CommonModule,  RouterModule],
   providers: [ApiService]
 })
 export class ItemRegisterComponent implements OnInit {

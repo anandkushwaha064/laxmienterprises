@@ -16,6 +16,8 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path,include
+from main import settings
+from django.conf.urls.static import static
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -24,6 +26,5 @@ urlpatterns = [
     path('api/customer/',include('apps.customer.urls')),
     path('api/invoice-item/',include('apps.invoiceItem.urls')),
     path('api/settings/',include('apps.settings.urls')),
-    path('api/',include('apps.authorization.urls')),
-    
+    path('api/',include('apps.authorization.urls')),   
 ]

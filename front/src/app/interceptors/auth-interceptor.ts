@@ -1,36 +1,28 @@
-import { Injectable } from '@angular/core';
-import { HttpInterceptor, HttpRequest, HttpHandler, HttpEvent, HttpErrorResponse } from '@angular/common/http';
-import { Observable, throwError } from 'rxjs';
+import { HttpInterceptorFn } from '@angular/common/http';
 import { catchError } from 'rxjs/operators';
-import { Router } from '@angular/router';
+import { of } from 'rxjs';
 
-@Injectable()
-export class AuthInterceptor implements HttpInterceptor {
+export const authInterceptor: HttpInterceptorFn = (req, next) => {
+  console.log('AuthInterceptor triggered');
+  
+  // Clone the request and add the Authorization header
+  const clonedRequest = req.clone({
+    setHeaders: {
+      Authorization: `Bearer your-token`, // Replace with your actual token logic
+    },
+  });
 
-  constructor(private router: Router) {}
-
-  intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
-    const token = localStorage.getItem('token');
-    console.log('AuthInterceptor triggered');
-    if (token) {
-      // Clone the request and add the Authorization header with the JWT token
-      const clonedRequest = req.clone({
-        headers: req.headers.set('Authorization', 'Bearer ' + token)
-      });
-      return next.handle(clonedRequest).pipe(
-        catchError((error: HttpErrorResponse) => {
-          // If the token is expired or invalid, handle it here
-          if (error.status === 401 || error.status === 403) {
-            // Redirect to login if not authorized
-            this.router.navigate(['/login']);
-          }
-          return throwError(error);
-        })
-      );
-    } else {
-      // No token found, redirect to login page
-      this.router.navigate(['/login']);
-      return throwError('No token found');
-    }
-  }
-}
+  return next(clonedRequest).pipe(
+    catchError((error) => {
+      // Check for 401 Unauthorized status
+      if (error.status === 401) {
+        console.error('Unauthorized access detected. Redirecting to /welcome.html');
+        // Redirect to /welcome.html
+        window.location.href = '/welcome.html';
+      }
+      
+      // Re-throw the error for other status codes
+      return of(error);
+    })
+  );
+};

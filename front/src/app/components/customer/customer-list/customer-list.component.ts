@@ -1,18 +1,26 @@
 import { Component } from '@angular/core';
-import { HttpClient, HttpClientModule } from '@angular/common/http'; // Import HttpClient for API calls
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms'; // Import FormsModule for template-driven forms
 import { Router } from '@angular/router'; // For navigation to the edit page
 import { ApiService } from '@services/api.service'; // Import ApiService
 import { Customer } from '@interfaces/commont.interfaces';
+import { registerLocaleData } from '@angular/common';
+import localeIn from '@angular/common/locales/en-IN';  // Import Indian locale
+import { NgModule, LOCALE_ID } from '@angular/core';
+import { DEFAULT_CURRENCY_CODE } from '@angular/core';
 
+registerLocaleData(localeIn, 'en-IN');  // Register the Indian locale
 @Component({
   selector: 'app-customer-list',
   standalone: true,
-  imports: [CommonModule, HttpClientModule, FormsModule], // Import necessary modules
+  imports: [CommonModule, FormsModule], // Import necessary modules
   templateUrl: './customer-list.component.html',
   styleUrls: ['./customer-list.component.scss'],
-  providers: [ApiService] // Provide ApiService
+  providers: [
+    ApiService,
+    { provide: LOCALE_ID, useValue: 'en-IN' }, // Set locale to India
+    { provide: DEFAULT_CURRENCY_CODE, useValue: 'INR' }, // Set default currency to INR
+  ],
 })
 export class CustomerListComponent {
   // Array to store the list of customers fetched from the API

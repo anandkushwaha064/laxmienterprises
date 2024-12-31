@@ -33,6 +33,8 @@ services:
     entrypoint: bash /backend/start.sh
     volumes:
       - ./backend:/backend
+      - ./shared-dev/migrations:/backend/migrations
+      - ./shared-dev/inits:/backend/inits
     environment:
       - PYTHONUNBUFFERED=1
       - MYSQLHOST=mysql-dev
@@ -46,7 +48,7 @@ services:
         condition: service_healthy
     networks:
      - internal
-    restart: always
+    restart: always    
 
   front-dev:
     build:
@@ -54,9 +56,17 @@ services:
       dockerfile: Dockerfile-Dev
     ports:
     - "4200:4200"
+    - "8443:433"
+    privileged: true
     volumes:
       - ./front:/front
+      - ./shared-dev/apache-conf/metadata:/front/apache-conf/metadata
+      - ./front/apache-conf/httpd.conf:/usr/local/apache2/conf/httpd.conf
+      - ./front/apache-conf/openidc.conf:/usr/local/apache2/conf/openidc.conf
+      - ./front/apache-conf/paths.conf:/usr/local/apache2/conf/paths.conf
+      - ./front/apache-conf/mod_auth_openidc.so:/usr/local/apache2/modules/mod_auth_openidc.so
     working_dir: /front
+    # entrypoint: bash /front/start_dev.sh
     entrypoint: sleep infinity & ng serve --host 0.0.0.0
     networks:
       - internal
