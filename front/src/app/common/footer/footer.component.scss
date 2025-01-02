@@ -4,7 +4,10 @@ footer {
     position: relative;
     padding: 40px 20px;
     text-align: center;
-  
+    width: 100%;
+    position: relative;
+    bottom: 0;
+
     /* Wave shape effect */
     &::before {
       content: '';

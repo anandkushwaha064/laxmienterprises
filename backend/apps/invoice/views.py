@@ -21,7 +21,7 @@ from apps.settings.models import Settings
 from apps.invoiceItem.serializers import InvoiceItemSerializer
 from apps.item.models import Item
 from django.contrib.auth.models import User  # Assuming Users model is in apps.users
-from rest_framework.permissions import IsAuthenticated
+# from rest_framework.permissions import IsAuthenticated
 
 import logging
 
@@ -190,7 +190,7 @@ def downloadPDF(request, pk):
     data['invoiceItems'] = sale_items_serializer.data
     data['returnItems'] = return_items_serializer.data
 
-    file_name = f"{invoice.id}_{invoice.customer.customer_name}_{invoice.sale_date_time}"
+    file_name = f"{invoice.id}_{invoice.customer.customer_name}_{data['invoice']['sale_date_time']}"
     
     # Slugify the string
     file_name = slugify(file_name)
@@ -203,5 +203,5 @@ def downloadPDF(request, pk):
 
     # Return PDF as response
     response = HttpResponse(pdf_file, content_type='application/pdf')
-    response['Content-Disposition'] = f'inline; filename="{file_name}.pdf"'
+    response['Content-Disposition'] = f'attachment; filename="{file_name}.pdf"'
     return response

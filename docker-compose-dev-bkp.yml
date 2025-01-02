@@ -29,6 +29,9 @@ services:
       - ./shared/migrations:/backend/migrations
       - ./shared/inits:/backend/inits
       - ./shared/statics:/backend/staticfiles
+      - ./backend/defaults:/backend/defaults
+      - ./backend/start.sh:/backend/start.sh
+      - ./backend:/backend
     environment:
       - PYTHONUNBUFFERED=1
       - MYSQLHOST=mysql
@@ -50,7 +53,12 @@ services:
     - "443:443"
     volumes:
       - ./shared/apache-conf/metadata:/front/apache-conf/metadata
+      - ./front/dist/front/browser:/usr/local/apache2/htdocs
       - ./shared/statics:/usr/local/apache2/htdocs/static
+      - ./front/apache-conf/httpd.conf:/usr/local/apache2/conf/httpd.conf
+      - ./front/apache-conf/openidc.conf:/usr/local/apache2/conf/openidc.conf
+      - ./front/apache-conf/paths.conf:/usr/local/apache2/conf/paths.conf
+      - ./front/apache-conf/mod_auth_openidc.so:/usr/local/apache2/modules/mod_auth_openidc.so
     working_dir: /front
     entrypoint: bash /front/start.sh
     networks:

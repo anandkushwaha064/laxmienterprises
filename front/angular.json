@@ -18,7 +18,7 @@
           "builder": "@angular-devkit/build-angular:application",
           "options": {
             "poll": 2000,
-            "watch": false,
+            "watch": true,
             "outputPath": "dist/front",
             "index": "src/index.html",
             "browser": "src/main.ts",

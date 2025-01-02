@@ -7,6 +7,7 @@ pip install -r requirements.txt
 python manage.py makemigrations
 python manage.py migrate
 
+python manage.py collectstatic --noinput
 
 # if this is the first time initializing co.meta
 # import basic data

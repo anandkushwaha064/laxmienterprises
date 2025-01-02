@@ -5,6 +5,10 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Welcome to LaxmiEnterprises</title>
+    <link rel="icon" type="image/x-icon" href="favicon.ico">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/tesseract.js@2.1.1/dist/tesseract.min.js"></script>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <style>
         /* General styles */
         body {
@@ -21,17 +25,18 @@
             padding: 1rem 0;
             text-align: center;
         }
-        .login-link { 
+
+        .login-link {
             width: 100%;
             text-align: center;
             margin-top: 20%;
         }
-        
+
         .login-link a {
             text-decoration: none;
             background-color: #2a4083;
             padding: 20px;
-            color:white;
+            color: white;
             font-size: 105%;
             border-radius: 8px;
         }
@@ -45,12 +50,118 @@
             bottom: 0;
             width: 100%;
         }
+
+        /* General header styling */
+        header {
+            width: 100%;
+            background-color: white;
+            border-bottom: 1px solid #eaeaea;
+        }
+
+        /* Top bar styles */
+        .top-bar {
+            background-color: #0a0a0a;
+            color: #ffffff;
+            display: flex;
+            justify-content: space-between;
+            padding: 5px 20px;
+        }
+
+        .top-bar a {
+            color: #00ff00;
+            text-decoration: none;
+        }
+
+        .top-bar a:hover {
+            text-decoration: underline;
+        }
+
+        /* Navbar styles */
+        .navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 6px 20px;
+            width: 98%;
+            margin: auto;
+        }
+
+        .navbar .logo {
+            font-size: 28px;
+            font-weight: bold;
+            color: black;
+        }
+
+        .navbar .nav-links {
+            list-style: none;
+            display: flex;
+            gap: 5px;
+        }
+
+        .navbar .nav-links li {
+            display: inline;
+            margin: 0 5px;
+        }
+
+        .navbar .nav-links li a {
+            text-decoration: none;
+            color: #000;
+            font-size: 14px;
+            padding: 3px 7px;
+            transition: background-color 0.3s ease;
+            border-radius: 2px;
+            background-color: #d2e0e6;
+        }
+
+        .navbar .nav-links li a:hover {
+            color: #3498db;
+            border-bottom: 2px solid #24726c;
+        }
+
+        /* Get Started button styles */
+        .navbar .get-started-btn {
+            background-color: #4285f4;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .navbar .get-started-btn:hover {
+            background-color: #357ae8;
+        }
+
+        /* Active link styling */
+        .navbar .nav-links a.active-link {
+            color: #3498db;
+            font-weight: bold;
+            border-bottom: 2px solid #3498db;
+        }
+
+        /* Logout button styling */
+        .logout {
+            color: #ffffff !important;
+            background-color: #202b8e !important;
+        }
     </style>
 </head>
 
 <body>
+    <header>
+        <nav class="navbar">
+            <div class="logo">
+                <span>Laxmi Enterprises</span>
+            </div>
+    </header>
+
+
+
     <div class="login-link">
-          <a href="/callback?iss=https://accounts.google.com&target_link_uri=https://laxmi.enterprises.com/index.html&method=get&oidc_callback=https://laxmi.enterprises.com/index.html&x_csrf=XKJJE_dET1c">Login With <strong>Google</strong></a>
+        <a
+            href="/callback?iss=https://accounts.google.com&target_link_uri=https://laxmi.enterprises.com/index.html&method=get&oidc_callback=https://laxmi.enterprises.com/index.html&x_csrf=XKJJE_dET1c">Login
+            With <strong>Google</strong></a>
     </div>
     <footer>
         <p>&copy; 2024 LaxmiEnterprises. All rights reserved.</p>

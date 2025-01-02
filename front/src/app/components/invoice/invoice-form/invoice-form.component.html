@@ -17,10 +17,8 @@
         <h4></h4>
         <button type="submit" *ngIf="!disable" class="btn btn-sm btn-success" [disabled]="invoiceForm.invalid" cl>{{invoice.isEditMode?"Update":"Save"}} Invoice</button>
         <button (click)="disable=!disable" *ngIf="disable" class="btn btn-sm btn-primary" [disabled]="invoiceForm.invalid" cl>Edit Invoice</button>
-        <!-- <button *ngIf="disable" class="btn btn-sm btn-secondary">
-          <span class="material-icons" (click)="printInvoice(invoice.id)" style="cursor: pointer;">print</span>
-        </button> -->
-        <a class="btn btn-sm btn-secondary" href="/api/invoice/getPDF/{{invoice.id}}" target="_blank">
+
+        <a class="btn btn-sm btn-secondary" *ngIf="disable" href="/api/invoice/getPDF/{{invoice.id}}" target="_blank">
           <span class="material-icons" style="cursor: pointer;">print</span>
         </a>
       </div>
@@ -132,20 +130,21 @@
               <div class="col-md-5">
                 {{ currentTransactionBalance | currency }}
               </div>
-              <hr>
-              <div class="col-md-7">
-                <strong> Customer Old Balance :</strong>
-              </div>
-              <div class="col-md-5">
-                {{ (customer? customer.balance : 0) | currency }}
-              </div>
-              <div class="col-md-7">
-                <strong>Customer New Balance:</strong>
-              </div>
-              <div class="col-md-5">
-                {{ customerNewBalance | currency }}
-              </div>
-
+              <ng-container *ngIf="!disable">
+                <hr >
+                <div class="col-md-7">
+                  <strong> Customer Old Balance :</strong>
+                </div>
+                <div class="col-md-5">
+                  {{ (customer? customer.balance : 0) | currency }}
+                </div>
+                <div class="col-md-7">
+                  <strong>Customer New Balance:</strong>
+                </div>
+                <div class="col-md-5">
+                  {{ customerNewBalance | currency }}
+                </div>
+              </ng-container>
             </div>
           </div>
         </div>
